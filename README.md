@@ -1,6 +1,6 @@
-# vite-ecosystem-ci
+# Vue Ecosystem CI
 
-This repository is used to run integration tests for vite ecosystem projects
+This repository is used to run integration tests for vue ecosystem projects
 
 ## via github workflow
 
@@ -23,23 +23,19 @@ Workflows are sheduled to run automatically every Monday, Wednesday and Friday
 - or `pnpm test <suitename>` to select a suite
 - or `tsx ecosystem-ci.ts`
 
-You can pass `--tag v2.8.0-beta.1`, `--branch somebranch` or `--commit abcd1234` option to select a specific vite version to build.
-If you pass `--release 2.7.13`, vite build will be skipped and vite is fetched from the registry instead
+You can pass `--tag v3.2.0-beta.1`, `--branch somebranch` or `--commit abcd1234` option to select a specific vue version to build.
+If you pass `--release 3.2.45`, vue build will be skipped and vue is fetched from the registry instead
 
 The repositories are checked out into `workspace` subdirectory as shallow clones
 
-# how to add a new integration test
+## how to add a new integration test
 
 - check out the existing [tests](./tests) and add one yourself. Thanks to some utilities it is really easy
 - once you are confidente the suite works, add it to the lists of suites in the [workflows](../../actions/)
 
 > the current utilities focus on pnpm based projects. Consider switching to pnpm or contribute utilities for other pms
 
-# reporting results
-
-## Discord
-
-Results are posted automatically to `#ecosystem-ci` on [vite discord](https://chat.vitejs.dev/)
+## reporting results
 
 ### on your own server
 
@@ -48,7 +44,7 @@ Results are posted automatically to `#ecosystem-ci` on [vite discord](https://ch
 - copy the webhook url
 - get in touch with admins of this repo so they can add the webhook
 
-#### how to add a discord webhook here
+### how to add a discord webhook here
 
 - Go to `<github repo>/settings/secrets/actions` and click on `New repository secret`
 - set `Name` as `DISCORD_WEBHOOK_URL`

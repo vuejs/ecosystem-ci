@@ -6,18 +6,18 @@ import { RunOptions } from '../types'
 export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
-		repo: 'vitejs/vite-ecosystem-ci',
+		repo: 'vuejs/ecosystem-ci',
 		build: async () => {
-			const dir = path.resolve(options.workspace, 'vite-ecosystem-ci')
+			const dir = path.resolve(options.workspace, 'ecosystem-ci')
 			const pkgFile = path.join(dir, 'package.json')
 			const pkg = JSON.parse(await fs.promises.readFile(pkgFile, 'utf-8'))
-			if (pkg.name !== 'vite-ecosystem-ci') {
+			if (pkg.name !== '@vue/ecosystem-ci') {
 				throw new Error(
-					`invalid checkout, expected package.json with "name":"vite-ecosystem-ci" in ${dir}`,
+					`invalid checkout, expected package.json with "name": "@vue/ecosystem-ci" in ${dir}`,
 				)
 			}
 			pkg.scripts.selftestscript =
-				"[ -d ../../vite/packages/vite/dist ] || (echo 'vite build failed' && exit 1)"
+				"[ -d ../../core/packages/vue/dist ] || (echo 'vue build failed' && exit 1)"
 			await fs.promises.writeFile(
 				pkgFile,
 				JSON.stringify(pkg, null, 2),

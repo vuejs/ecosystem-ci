@@ -2,16 +2,17 @@ import { runInRepo } from '../utils'
 import { RunOptions } from '../types'
 
 export async function test(options: RunOptions) {
-	if (options.viteMajor < 4) {
-		return // no branch for vite 3
-	}
 	await runInRepo({
 		...options,
 		repo: 'nuxt/framework',
+		// https://github.com/vitejs/vite-ecosystem-ci/pull/158#discussion_r1038778127
+		// For monorepos, overrides need to be manually specified.
 		overrides: {
-			'@vitejs/plugin-vue': true,
+			'@vue/reactivity': true,
+			'@vue/shared': true,
+			vue: true,
 		},
 		build: 'build',
-		test: ['test:fixtures', 'test:types'],
+		test: ['test:fixtures', 'test:types', 'test:unit'],
 	})
 }

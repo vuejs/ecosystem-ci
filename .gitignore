@@ -1,7 +1,8 @@
 .DS_Store
 .DS_Store?
 node_modules
-vite
+core
+vue
 workspace
 .pnpm-debug.log
 .idea

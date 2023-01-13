@@ -1,4 +1,5 @@
 // @ts-check
+/* eslint-disable @typescript-eslint/no-var-requires, n/no-unpublished-require */
 const { defineConfig } = require('eslint-define-config')
 
 module.exports = defineConfig({

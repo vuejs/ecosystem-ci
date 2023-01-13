@@ -5,38 +5,38 @@ import { cac } from 'cac'
 
 import {
 	setupEnvironment,
-	setupViteRepo,
-	buildVite,
-	bisectVite,
-	parseViteMajor,
+	setupVueRepo,
+	buildVue,
+	bisectVue,
+	parseVueMajor,
 	parseMajorVersion,
 } from './utils'
 import { CommandOptions, RunOptions } from './types'
 
 const cli = cac()
 cli
-	.command('[...suites]', 'build vite and run selected suites')
+	.command('[...suites]', 'build vue and run selected suites')
 	.option('--verify', 'verify checkouts by running tests', { default: false })
-	.option('--repo <repo>', 'vite repository to use', { default: 'vitejs/vite' })
-	.option('--branch <branch>', 'vite branch to use', { default: 'main' })
-	.option('--tag <tag>', 'vite tag to use')
-	.option('--commit <commit>', 'vite commit sha to use')
-	.option('--release <version>', 'vite release to use from npm registry')
+	.option('--repo <repo>', 'vue repository to use', { default: 'vuejs/core' })
+	.option('--branch <branch>', 'vue branch to use', { default: 'main' })
+	.option('--tag <tag>', 'vue tag to use')
+	.option('--commit <commit>', 'vue commit sha to use')
+	.option('--release <version>', 'vue release to use from npm registry')
 	.action(async (suites, options: CommandOptions) => {
-		const { root, vitePath, workspace } = await setupEnvironment()
+		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
-		let viteMajor
+		let vueMajor
 		if (!options.release) {
-			await setupViteRepo(options)
-			await buildVite({ verify: options.verify })
-			viteMajor = parseViteMajor(vitePath)
+			await setupVueRepo(options)
+			await buildVue({ verify: options.verify })
+			vueMajor = parseVueMajor(vuePath)
 		} else {
-			viteMajor = parseMajorVersion(options.release)
+			vueMajor = parseMajorVersion(options.release)
 		}
 		const runOptions: RunOptions = {
 			root,
-			vitePath,
-			viteMajor,
+			vuePath,
+			vueMajor,
 			workspace,
 			release: options.release,
 			verify: options.verify,
@@ -48,37 +48,37 @@ cli
 	})
 
 cli
-	.command('build-vite', 'build vite only')
-	.option('--verify', 'verify vite checkout by running tests', {
+	.command('build-vue', 'build vue only')
+	.option('--verify', 'verify vue checkout by running tests', {
 		default: false,
 	})
-	.option('--repo <repo>', 'vite repository to use', { default: 'vitejs/vite' })
-	.option('--branch <branch>', 'vite branch to use', { default: 'main' })
-	.option('--tag <tag>', 'vite tag to use')
-	.option('--commit <commit>', 'vite commit sha to use')
+	.option('--repo <repo>', 'vue repository to use', { default: 'vuejs/core' })
+	.option('--branch <branch>', 'vue branch to use', { default: 'main' })
+	.option('--tag <tag>', 'vue tag to use')
+	.option('--commit <commit>', 'vue commit sha to use')
 	.action(async (options: CommandOptions) => {
 		await setupEnvironment()
-		await setupViteRepo(options)
-		await buildVite({ verify: options.verify })
+		await setupVueRepo(options)
+		await buildVue({ verify: options.verify })
 	})
 
 cli
-	.command('run-suites [...suites]', 'run single suite with pre-built vite')
+	.command('run-suites [...suites]', 'run single suite with pre-built vue')
 	.option(
 		'--verify',
-		'verify checkout by running tests before using local vite',
+		'verify checkout by running tests before using local vue',
 		{ default: false },
 	)
-	.option('--repo <repo>', 'vite repository to use', { default: 'vitejs/vite' })
-	.option('--release <version>', 'vite release to use from npm registry')
+	.option('--repo <repo>', 'vue repository to use', { default: 'vuejs/core' })
+	.option('--release <version>', 'vue release to use from npm registry')
 	.action(async (suites, options: CommandOptions) => {
-		const { root, vitePath, workspace } = await setupEnvironment()
+		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
 		const runOptions: RunOptions = {
 			...options,
 			root,
-			vitePath,
-			viteMajor: parseViteMajor(vitePath),
+			vuePath,
+			vueMajor: parseVueMajor(vuePath),
 			workspace,
 		}
 		for (const suite of suitesToRun) {
@@ -89,14 +89,14 @@ cli
 cli
 	.command(
 		'bisect [...suites]',
-		'use git bisect to find a commit in vite that broke suites',
+		'use git bisect to find a commit in vue that broke suites',
 	)
 	.option('--good <ref>', 'last known good ref, e.g. a previous tag. REQUIRED!')
 	.option('--verify', 'verify checkouts by running tests', { default: false })
-	.option('--repo <repo>', 'vite repository to use', { default: 'vitejs/vite' })
-	.option('--branch <branch>', 'vite branch to use', { default: 'main' })
-	.option('--tag <tag>', 'vite tag to use')
-	.option('--commit <commit>', 'vite commit sha to use')
+	.option('--repo <repo>', 'vue repository to use', { default: 'vuejs/core' })
+	.option('--branch <branch>', 'vue branch to use', { default: 'main' })
+	.option('--tag <tag>', 'vue tag to use')
+	.option('--commit <commit>', 'vue commit sha to use')
 	.action(async (suites, options: CommandOptions & { good: string }) => {
 		if (!options.good) {
 			console.log(
@@ -104,20 +104,20 @@ cli
 			)
 			process.exit(1)
 		}
-		const { root, vitePath, workspace } = await setupEnvironment()
+		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
 		let isFirstRun = true
 		const { verify } = options
 		const runSuite = async () => {
 			try {
-				await buildVite({ verify: isFirstRun && verify })
+				await buildVue({ verify: isFirstRun && verify })
 				for (const suite of suitesToRun) {
 					await run(suite, {
 						verify: !!(isFirstRun && verify),
 						skipGit: !isFirstRun,
 						root,
-						vitePath,
-						viteMajor: parseViteMajor(vitePath),
+						vuePath,
+						vueMajor: parseVueMajor(vuePath),
 						workspace,
 					})
 				}
@@ -127,10 +127,10 @@ cli
 				return e
 			}
 		}
-		await setupViteRepo({ ...options, shallow: false })
+		await setupVueRepo({ ...options, shallow: false })
 		const initialError = await runSuite()
 		if (initialError) {
-			await bisectVite(options.good, runSuite)
+			await bisectVue(options.good, runSuite)
 		} else {
 			console.log(`no errors for starting commit, cannot bisect`)
 		}
