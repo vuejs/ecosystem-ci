@@ -270,7 +270,7 @@ export async function getPermanentRef() {
 export async function buildVue({ verify = false }) {
 	cd(vuePath)
 	await $`ni --frozen`
-	await $`nr build --types`
+	await $`nr build --release`
 	if (verify) {
 		await $`nr test`
 	}
