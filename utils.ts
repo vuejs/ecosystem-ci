@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs'
-import { fileURLToPath, pathToFileURL } from 'url'
+import { fileURLToPath } from 'url'
 import { execaCommand } from 'execa'
 import {
 	EnvironmentData,
@@ -10,6 +10,7 @@ import {
 	RunOptions,
 	Task,
 } from './types'
+import { REGISTRY_ADDRESS, startRegistry } from './registry'
 //eslint-disable-next-line n/no-unpublished-import
 import { detect } from '@antfu/ni'
 import actionsCore from '@actions/core'
@@ -54,7 +55,10 @@ export async function $(literals: TemplateStringsArray, ...values: any[]) {
 	return result.stdout
 }
 
+let app: any
 export async function setupEnvironment(): Promise<EnvironmentData> {
+	app = await startRegistry()
+
 	// @ts-expect-error import.meta
 	const root = dirnameFrom(import.meta.url)
 	const workspace = path.resolve(root, 'workspace')
@@ -68,6 +72,10 @@ export async function setupEnvironment(): Promise<EnvironmentData> {
 		NODE_OPTIONS: '--max-old-space-size=6144', // GITHUB CI has 7GB max, stay below
 	}
 	return { root, workspace, vuePath, cwd, env }
+}
+
+export async function teardownEnvironment() {
+	app.close(() => process.exit(0))
 }
 
 export async function setupRepo(options: RepoOptions) {
@@ -201,38 +209,27 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		await beforeTestCommand?.(pkg.scripts)
 		await testCommand?.(pkg.scripts)
 	}
-	let overrides = options.overrides || {}
+	const overrides = options.overrides || {}
 
-	const coreVuePackages = fs
-		.readdirSync(`${options.vuePath}/packages`)
-		// filter out non-directories
-		.filter((name) =>
-			fs.statSync(`${options.vuePath}/packages/${name}`).isDirectory(),
-		)
-		// filter out packages that has "private": true in package.json
-		.filter((name) => {
-			const pkg = JSON.parse(
-				fs.readFileSync(
-					`${options.vuePath}/packages/${name}/package.json`,
-					'utf-8',
-				),
-			)
-			return !pkg.private
-		})
+	const vuePackages = await getVuePackages()
 
 	if (options.release) {
-		for (const name of coreVuePackages) {
-			if (overrides[name] && overrides[name] !== options.release) {
+		for (const pkg of vuePackages) {
+			if (overrides[pkg.name] && overrides[pkg.name] !== options.release) {
 				throw new Error(
-					`conflicting overrides[${name}]=${overrides[name]} and --release=${options.release} config. Use either one or the other`,
+					`conflicting overrides[${pkg.name}]=${
+						overrides[pkg.name]
+					} and --release=${
+						options.release
+					} config. Use either one or the other`,
 				)
 			} else {
-				overrides[name] = options.release
+				overrides[pkg.name] = options.release
 			}
 		}
 	} else {
-		for (const name of coreVuePackages) {
-			overrides[name] ||= `${options.vuePath}/packages/${name}`
+		for (const pkg of vuePackages) {
+			overrides[pkg.name] ||= pkg.hashedVersion
 		}
 	}
 	await applyPackageOverrides(dir, pkg, overrides)
@@ -257,6 +254,7 @@ export async function setupVueRepo(options: Partial<RepoOptions>) {
 }
 
 export async function getPermanentRef() {
+	const _cwd = cwd
 	cd(vuePath)
 	try {
 		const ref = await $`git log -1 --pretty=format:%h`
@@ -264,15 +262,100 @@ export async function getPermanentRef() {
 	} catch (e) {
 		console.warn(`Failed to obtain perm ref. ${e}`)
 		return undefined
+	} finally {
+		cd(_cwd)
 	}
 }
 
-export async function buildVue({ verify = false }) {
+export async function getVuePackages() {
+	// append the hash of the current commit to the version to avoid conflicts
+	const commitHash = await getPermanentRef()
+
+	return (
+		fs
+			.readdirSync(`${vuePath}/packages`)
+			// filter out non-directories
+			.filter((name) =>
+				fs.statSync(`${vuePath}/packages/${name}`).isDirectory(),
+			)
+			// parse package.json
+			.map((name) => {
+				const directory = `${vuePath}/packages/${name}`
+				const packageJson = JSON.parse(
+					fs.readFileSync(`${directory}/package.json`, 'utf-8'),
+				)
+				return {
+					directory,
+					packageJson,
+				}
+			})
+			// filter out packages that has `"private": true` in `package.json`
+			.filter(({ packageJson }) => {
+				return !packageJson.private
+			})
+			.map(({ packageJson, directory }) => ({
+				name: packageJson.name,
+				version: packageJson.version,
+				// if `build-vue` and `run-suites` are run separately, the version would already include commit hash
+				hashedVersion: packageJson.version.includes(commitHash)
+					? packageJson.version
+					: `${packageJson.version}-${commitHash}`,
+				directory: directory,
+			}))
+	)
+}
+
+function writeOrAppendNpmrc(dir: string, content: string) {
+	const npmrcPath = path.join(dir, '.npmrc')
+	if (fs.existsSync(npmrcPath)) {
+		fs.appendFileSync(npmrcPath, `\n${content}`)
+	} else {
+		fs.writeFileSync(npmrcPath, content)
+	}
+}
+
+export async function buildVue({ verify = false, publish = false }) {
 	cd(vuePath)
-	await $`ni --frozen`
+	await $`ni --prefer-frozen`
 	await $`nr build --release`
 	if (verify) {
 		await $`nr test`
+	}
+
+	if (publish) {
+		// TODO: it's better to update the release script in the core repo than hacking it here
+		const packages = await getVuePackages()
+		for (const pkg of packages) {
+			cd(pkg.directory)
+
+			// sync versions
+			const packageJsonPath = path.join(pkg.directory, 'package.json')
+			const packageJson = JSON.parse(
+				await fs.promises.readFile(packageJsonPath, 'utf-8'),
+			)
+			for (const dep of packages) {
+				if (packageJson.dependencies?.[dep.name]) {
+					packageJson.dependencies[dep.name] = dep.hashedVersion
+				}
+				if (packageJson.devDependencies?.[dep.name]) {
+					packageJson.devDependencies[dep.name] = dep.hashedVersion
+				}
+				if (packageJson.peerDependencies?.[dep.name]) {
+					packageJson.peerDependencies[dep.name] = dep.hashedVersion
+				}
+			}
+			await fs.promises.writeFile(
+				packageJsonPath,
+				JSON.stringify(packageJson, null, 2) + '\n',
+				'utf-8',
+			)
+
+			writeOrAppendNpmrc(
+				pkg.directory,
+				`${REGISTRY_ADDRESS.replace('http://', '//')}:_authToken=dummy`,
+			)
+			await $`yarn publish --access public --registry ${REGISTRY_ADDRESS} --new-version ${pkg.hashedVersion} --no-commit-hooks --no-git-tag-version --//localhost:4872/:_authToken fake`
+		}
 	}
 }
 
@@ -367,13 +450,13 @@ export async function applyPackageOverrides(
 			}
 			pkg.engines.pnpm = '7.18.1'
 		}
-		if (!pkg.devDependencies) {
-			pkg.devDependencies = {}
-		}
-		pkg.devDependencies = {
-			...pkg.devDependencies,
-			...overrides, // overrides must be present in devDependencies or dependencies otherwise they may not work
-		}
+		// if (!pkg.devDependencies) {
+		// 	pkg.devDependencies = {}
+		// }
+		// pkg.devDependencies = {
+		// 	...pkg.devDependencies,
+		// 	...overrides, // overrides must be present in devDependencies or dependencies otherwise they may not work
+		// }
 		if (!pkg.pnpm) {
 			pkg.pnpm = {}
 		}
@@ -404,15 +487,20 @@ export async function applyPackageOverrides(
 		throw new Error(`unsupported package manager detected: ${pm}`)
 	}
 	const pkgFile = path.join(dir, 'package.json')
-	await fs.promises.writeFile(pkgFile, JSON.stringify(pkg, null, 2), 'utf-8')
+	await fs.promises.writeFile(
+		pkgFile,
+		JSON.stringify(pkg, null, 2) + '\n',
+		'utf-8',
+	)
 
 	// use of `ni` command here could cause lockfile violation errors so fall back to native commands that avoid these
 	if (pm === 'pnpm') {
-		await $`pnpm install --prefer-frozen-lockfile --prefer-offline --strict-peer-dependencies false`
+		// FIXME: write/append to npmrc instead
+		await $`pnpm install --no-frozen-lockfile --no-strict-peer-dependencies --registry ${REGISTRY_ADDRESS}`
 	} else if (pm === 'yarn') {
-		await $`yarn install`
+		await $`yarn install --registry ${REGISTRY_ADDRESS}`
 	} else if (pm === 'npm') {
-		await $`npm install`
+		await $`npm install --registry ${REGISTRY_ADDRESS}`
 	}
 }
 

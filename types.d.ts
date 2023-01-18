@@ -31,6 +31,7 @@ export interface CommandOptions {
 	commit?: string
 	release?: string
 	verify?: boolean
+	publish?: boolean
 	skipGit?: boolean
 }
 

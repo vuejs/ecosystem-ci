@@ -1,0 +1,55 @@
+storage: .verdaccio-cache
+
+auth:
+  # use verdaccio-auth-memory plugin for testing
+  # not sure if it's still needed after we make `publish` available to $all
+  auth-memory:
+    users:
+      foo:
+        name: foo
+        password: s3cret
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  # avoid proxying vue core packages
+  'vue':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@vue/compat':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@vue/compiler-*':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@vue/reactivity*':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@vue/runtime-*':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@vue/server-renderer':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@vue/shared':
+    access: $all
+    publish: $all
+    storage: ./local
+  '@*/*':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '**':
+    access: $all
+    publish: $all
+    proxy: npmjs
+
+log: { type: stdout, format: pretty, level: http }

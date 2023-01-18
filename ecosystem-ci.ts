@@ -5,6 +5,7 @@ import { cac } from 'cac'
 
 import {
 	setupEnvironment,
+	teardownEnvironment,
 	setupVueRepo,
 	buildVue,
 	bisectVue,
@@ -28,7 +29,7 @@ cli
 		let vueMajor
 		if (!options.release) {
 			await setupVueRepo(options)
-			await buildVue({ verify: options.verify })
+			await buildVue({ verify: options.verify, publish: true })
 			vueMajor = parseVueMajor(vuePath)
 		} else {
 			vueMajor = parseMajorVersion(options.release)
@@ -45,11 +46,15 @@ cli
 		for (const suite of suitesToRun) {
 			await run(suite, runOptions)
 		}
+		await teardownEnvironment()
 	})
 
 cli
 	.command('build-vue', 'build vue only')
 	.option('--verify', 'verify vue checkout by running tests', {
+		default: false,
+	})
+	.option('--publish', 'publish the built vue packages to the local registry', {
 		default: false,
 	})
 	.option('--repo <repo>', 'vue repository to use', { default: 'vuejs/core' })
@@ -59,11 +64,15 @@ cli
 	.action(async (options: CommandOptions) => {
 		await setupEnvironment()
 		await setupVueRepo(options)
-		await buildVue({ verify: options.verify })
+		await buildVue({ verify: options.verify, publish: options.publish })
+		await teardownEnvironment()
 	})
 
 cli
-	.command('run-suites [...suites]', 'run single suite with pre-built vue')
+	.command(
+		'run-suites [...suites]',
+		'run single suite with pre-built and locally-published vue',
+	)
 	.option(
 		'--verify',
 		'verify checkout by running tests before using local vue',
@@ -84,6 +93,7 @@ cli
 		for (const suite of suitesToRun) {
 			await run(suite, runOptions)
 		}
+		await teardownEnvironment()
 	})
 
 cli
@@ -110,7 +120,7 @@ cli
 		const { verify } = options
 		const runSuite = async () => {
 			try {
-				await buildVue({ verify: isFirstRun && verify })
+				await buildVue({ verify: isFirstRun && verify, publish: true })
 				for (const suite of suitesToRun) {
 					await run(suite, {
 						verify: !!(isFirstRun && verify),
@@ -134,6 +144,7 @@ cli
 		} else {
 			console.log(`no errors for starting commit, cannot bisect`)
 		}
+		await teardownEnvironment()
 	})
 cli.help()
 cli.parse()
