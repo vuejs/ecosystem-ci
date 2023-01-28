@@ -64,6 +64,8 @@ jobs:
           --repo ${{ inputs.repo || github.event.client_payload.repo || 'vuejs/core' }}
           ${{ matrix.suite }}
         id: ecosystem-ci-run
+        env:
+          COREPACK_ENABLE_STRICT: 0
       - if: always()
         run: pnpm tsx discord-webhook.ts
         env:

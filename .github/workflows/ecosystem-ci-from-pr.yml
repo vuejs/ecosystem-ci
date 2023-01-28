@@ -83,6 +83,8 @@ jobs:
           --branch ${{ inputs.branchName }}
           --repo ${{ inputs.repo }}
           ${{ inputs.suite }}
+        env:
+          COREPACK_ENABLE_STRICT: 0
 
   execute-all:
     timeout-minutes: 60
@@ -113,6 +115,8 @@ jobs:
           --branch ${{ inputs.branchName }}
           --repo ${{ inputs.repo }}
           ${{ matrix.suite }}
+        env:
+          COREPACK_ENABLE_STRICT: 0
 
   update-comment:
     runs-on: ubuntu-latest
