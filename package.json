@@ -10,7 +10,7 @@
     "format:fix": "pnpm format --write",
     "test:self": "tsx ecosystem-ci.ts _selftest",
     "test": "tsx ecosystem-ci.ts",
-    "cleanup": "rm -rf .verdaccio-cache/local workspace",
+    "cleanup": "rm -rf .verdaccio-cache/.local workspace",
     "bisect": "tsx ecosystem-ci.ts bisect"
   },
   "simple-git-hooks": {

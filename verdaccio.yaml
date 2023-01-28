@@ -18,31 +18,31 @@ packages:
   'vue':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@vue/compat':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@vue/compiler-*':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@vue/reactivity*':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@vue/runtime-*':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@vue/server-renderer':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@vue/shared':
     access: $all
     publish: $all
-    storage: ./local
+    storage: ./.local
   '@*/*':
     access: $all
     publish: $all
