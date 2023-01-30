@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { getPermanentRef, setupEnvironment } from './utils'
+import { getPermanentRef, setupEnvironment, teardownEnvironment } from './utils'
 
 type RefType = 'branch' | 'tag' | 'commit' | 'release'
 type Status = 'success' | 'failure' | 'cancelled'
@@ -86,6 +86,8 @@ async function run() {
 	} else {
 		console.error(`Webhook failed ${res.status}:`, await res.text())
 	}
+
+	await teardownEnvironment()
 }
 
 function assertEnv<T>(
