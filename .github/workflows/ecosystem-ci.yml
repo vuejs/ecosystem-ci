@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         suite:
-          - nuxt-framework
+          - nuxt
           - vite-plugin-vue
           - vitepress
       fail-fast: false

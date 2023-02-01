@@ -29,7 +29,7 @@ on:
         type: choice
         options:
           - "-"
-          - nuxt-framework
+          - nuxt
           - vite-plugin-vue
           - vitepress
 jobs:
@@ -86,7 +86,7 @@ jobs:
     strategy:
       matrix:
         suite:
-          - nuxt-framework
+          - nuxt
           - vite-plugin-vue
           - vitepress
       fail-fast: false
