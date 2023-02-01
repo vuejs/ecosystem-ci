@@ -38,16 +38,10 @@ jobs:
     outputs:
       comment-id: ${{ steps.create-comment.outputs.result }}
     steps:
-      - id: generate-token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.PR_GITHUB_APP_ID }}
-          private_key: ${{ secrets.PR_GITHUB_APP_PRIVATE_KEY }}
-          repository: "${{ github.repository_owner }}/core"
       - id: create-comment
         uses: actions/github-script@v6
         with:
-          github-token: ${{ steps.generate-token.outputs.token }}
+          github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           result-encoding: string
           script: |
             const url = `${context.serverUrl}//${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
@@ -121,15 +115,9 @@ jobs:
     needs: [init, execute-selected-suite, execute-all]
     if: always()
     steps:
-      - id: generate-token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.PR_GITHUB_APP_ID }}
-          private_key: ${{ secrets.PR_GITHUB_APP_PRIVATE_KEY }}
-          repository: "${{ github.repository_owner }}/core"
       - uses: actions/github-script@v6
         with:
-          github-token: ${{ steps.generate-token.outputs.token }}
+          github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           script: |
             const { data: { jobs } } = await github.rest.actions.listJobsForWorkflowRun({
               owner: context.repo.owner,
