@@ -316,16 +316,41 @@ function writeOrAppendNpmrc(dir: string, content: string) {
 }
 
 export async function buildVue({ verify = false, publish = false }) {
+	const packages = await getVuePackages()
+
+	// TODO: it's better to update the release script in the core repo than hacking it here
+	for (const pkg of packages) {
+		cd(pkg.directory)
+
+		// update buildOptions to remove browser builds to speed up builds
+		const packageJsonPath = path.join(pkg.directory, 'package.json')
+		const packageJson = JSON.parse(
+			await fs.promises.readFile(packageJsonPath, 'utf-8'),
+		)
+		if (Array.isArray(packageJson.buildOptions?.formats)) {
+			packageJson.buildOptions.formats =
+				packageJson.buildOptions.formats.filter(
+					(f: string) => !f.includes('browser') && !f.includes('global'),
+				)
+		}
+
+		await fs.promises.writeFile(
+			packageJsonPath,
+			JSON.stringify(packageJson, null, 2) + '\n',
+			'utf-8',
+		)
+	}
+
 	cd(vuePath)
 	await $`ni --prefer-frozen`
 	await $`nr build --release`
+
 	if (verify) {
 		await $`nr test`
 	}
 
 	if (publish) {
 		// TODO: it's better to update the release script in the core repo than hacking it here
-		const packages = await getVuePackages()
 		for (const pkg of packages) {
 			cd(pkg.directory)
 
