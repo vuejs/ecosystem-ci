@@ -37,6 +37,7 @@ on:
           - nuxt
           - pinia
           - router
+          - test-utils
           - vite-plugin-vue
           - vitepress
 jobs:

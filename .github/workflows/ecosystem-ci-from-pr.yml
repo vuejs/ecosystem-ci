@@ -32,6 +32,7 @@ on:
           - nuxt
           - pinia
           - router
+          - test-utils
           - vite-plugin-vue
           - vitepress
 jobs:
@@ -91,6 +92,7 @@ jobs:
           - nuxt
           - pinia
           - router
+          - test-utils
           - vite-plugin-vue
           - vitepress
       fail-fast: false
