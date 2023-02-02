@@ -40,6 +40,8 @@ jobs:
       matrix:
         suite:
           - nuxt
+          - pinia
+          - router
           - vite-plugin-vue
           - vitepress
       fail-fast: false

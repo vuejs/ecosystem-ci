@@ -35,6 +35,8 @@ on:
         type: choice
         options:
           - nuxt
+          - pinia
+          - router
           - vite-plugin-vue
           - vitepress
 jobs:
