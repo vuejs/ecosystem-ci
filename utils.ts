@@ -344,6 +344,7 @@ export async function buildVue({ verify = false, publish = false }) {
 	cd(vuePath)
 	await $`ni --prefer-frozen`
 	await $`nr build --release`
+	await $`nr build-dts`
 
 	if (verify) {
 		await $`nr test`
