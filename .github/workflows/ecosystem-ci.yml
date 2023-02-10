@@ -39,6 +39,7 @@ jobs:
     strategy:
       matrix:
         suite:
+          - element-plus
           - nuxt
           - pinia
           - router

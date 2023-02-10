@@ -29,6 +29,7 @@ on:
         type: choice
         options:
           - "-"
+          - element-plus
           - nuxt
           - pinia
           - router
@@ -90,6 +91,7 @@ jobs:
     strategy:
       matrix:
         suite:
+          - element-plus
           - nuxt
           - pinia
           - router
