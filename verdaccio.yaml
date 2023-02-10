@@ -19,30 +19,37 @@ packages:
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@vue/compat':
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@vue/compiler-*':
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@vue/reactivity*':
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@vue/runtime-*':
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@vue/server-renderer':
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@vue/shared':
     access: $all
     publish: $all
     storage: ./.local
+    proxy: npmjs
   '@*/*':
     access: $all
     publish: $all
