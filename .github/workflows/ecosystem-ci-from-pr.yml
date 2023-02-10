@@ -29,13 +29,14 @@ on:
         type: choice
         options:
           - "-"
+          - element-plus
           - nuxt
           - pinia
           - router
           - test-utils
           - vite-plugin-vue
           - vitepress
-          - element-plus
+          - vue-macros
 jobs:
   init:
     runs-on: ubuntu-latest
@@ -90,13 +91,14 @@ jobs:
     strategy:
       matrix:
         suite:
+          - element-plus
           - nuxt
           - pinia
           - router
           - test-utils
           - vite-plugin-vue
           - vitepress
-          - element-plus
+          - vue-macros
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
