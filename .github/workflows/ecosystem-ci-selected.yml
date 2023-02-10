@@ -40,6 +40,7 @@ on:
           - test-utils
           - vite-plugin-vue
           - vitepress
+          - element-plus
 jobs:
   execute-selected-suite:
     runs-on: ubuntu-latest

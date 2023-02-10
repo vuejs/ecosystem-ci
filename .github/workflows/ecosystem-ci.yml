@@ -45,6 +45,7 @@ jobs:
           - test-utils
           - vite-plugin-vue
           - vitepress
+          - element-plus
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
