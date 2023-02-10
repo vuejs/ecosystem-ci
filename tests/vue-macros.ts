@@ -6,6 +6,7 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'sxzz/unplugin-vue-macros',
 		branch: 'main',
-		test: ['test', 'typecheck'],
+		build: 'build',
+		test: ['test:ecosystem'],
 	})
 }
