@@ -34,7 +34,6 @@ on:
         required: true
         type: choice
         options:
-          - element-plus
           - nuxt
           - pinia
           - router
