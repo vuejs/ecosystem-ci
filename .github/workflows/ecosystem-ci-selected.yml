@@ -51,11 +51,6 @@ jobs:
         with:
           node-version: 18
         id: setup-node
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-        id: setup-deno
-        continue-on-error: true
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile
