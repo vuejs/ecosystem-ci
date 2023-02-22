@@ -41,6 +41,7 @@ on:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vueuse
 jobs:
   execute-selected-suite:
     runs-on: ubuntu-latest

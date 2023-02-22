@@ -36,6 +36,7 @@ on:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vueuse
 jobs:
   init:
     runs-on: ubuntu-latest
@@ -93,6 +94,7 @@ jobs:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vueuse
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
