@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Vue Ecosystem CI",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "prepare": "pnpm exec simple-git-hooks",
     "lint": "eslint --ignore-path .gitignore '**/*.ts'",
     "lint:fix": "pnpm lint --fix",
