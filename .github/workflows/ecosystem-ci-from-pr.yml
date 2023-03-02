@@ -36,6 +36,7 @@ on:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vuetify
           - vueuse
 jobs:
   init:
@@ -94,6 +95,7 @@ jobs:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vuetify
           - vueuse
       fail-fast: false
     steps:

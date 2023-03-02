@@ -46,6 +46,7 @@ jobs:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vuetify
           - vueuse
       fail-fast: false
     steps:

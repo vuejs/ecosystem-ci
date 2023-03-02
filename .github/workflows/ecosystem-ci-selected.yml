@@ -41,6 +41,7 @@ on:
           - vite-plugin-vue
           - vitepress
           - vue-macros
+          - vuetify
           - vueuse
 jobs:
   execute-selected-suite:
