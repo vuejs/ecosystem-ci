@@ -34,6 +34,7 @@ on:
           - pinia
           - router
           - test-utils
+          - vant
           - vite-plugin-vue
           - vitepress
           - vue-macros
@@ -94,6 +95,7 @@ jobs:
           - pinia
           - router
           - test-utils
+          - vant
           - vite-plugin-vue
           - vitepress
           - vue-macros

@@ -39,6 +39,7 @@ on:
           - pinia
           - router
           - test-utils
+          - vant
           - vite-plugin-vue
           - vitepress
           - vue-macros
