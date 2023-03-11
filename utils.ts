@@ -381,7 +381,7 @@ export async function buildVue({ verify = false, publish = false }) {
 				pkg.directory,
 				`${REGISTRY_ADDRESS.replace('http://', '//')}:_authToken=dummy`,
 			)
-			await $`yarn publish --access public --registry ${REGISTRY_ADDRESS} --new-version ${pkg.hashedVersion} --no-commit-hooks --no-git-tag-version --//localhost:4872/:_authToken fake`
+			await $`yarn publish --access public --registry ${REGISTRY_ADDRESS} --new-version ${pkg.hashedVersion} --no-commit-hooks --no-git-tag-version`
 		}
 	}
 }
