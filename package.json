@@ -62,5 +62,12 @@
     "simple-git-hooks": "^2.8.1",
     "tsx": "^3.12.6",
     "typescript": "^4.9.5"
+  },
+  "pnpm": {
+    "auditConfig": {
+      "ignoreCves": [
+        "CVE-2023-28155"
+      ]
+    }
   }
 }
