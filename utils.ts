@@ -67,6 +67,7 @@ export async function setupEnvironment(): Promise<EnvironmentData> {
 	env = {
 		...process.env,
 		CI: 'true',
+		ECOSYSTEM_CI: 'vue', // for downstream packages to detect
 		TURBO_FORCE: 'true', // disable turbo caching, ecosystem-ci modifies things and we don't want replays
 		YARN_ENABLE_IMMUTABLE_INSTALLS: 'false', // to avoid errors with mutated lockfile due to overrides
 		NODE_OPTIONS: '--max-old-space-size=6144', // GITHUB CI has 7GB max, stay below
@@ -351,6 +352,7 @@ export async function buildVue({ verify = false, publish = false }) {
 	}
 
 	if (publish) {
+		// TODO: prompt for `pnpm clean` if the same version already exists
 		// TODO: it's better to update the release script in the core repo than hacking it here
 		for (const pkg of packages) {
 			cd(pkg.directory)
