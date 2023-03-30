@@ -24,9 +24,11 @@ Workflows are sheduled to run automatically every Monday, Wednesday and Friday
 - or `tsx ecosystem-ci.ts`
 
 You can pass `--tag v3.2.0-beta.1`, `--branch somebranch` or `--commit abcd1234` option to select a specific vue version to build.
-If you pass `--release 3.2.45`, vue build will be skipped and vue is fetched from the registry instead
+If you pass `--release 3.2.45`, vue build will be skipped and vue is fetched from the registry instead.
 
-The repositories are checked out into `workspace` subdirectory as shallow clones
+The repositories are checked out into `workspace` subdirectory as shallow clones.
+
+If you want to test the same version of vue multiple times, please run `pnpm clean` first to ensure the workspace is clean.
 
 ## how to add a new integration test
 
@@ -34,6 +36,8 @@ The repositories are checked out into `workspace` subdirectory as shallow clones
 - once you are confidente the suite works, add it to the lists of suites in the [workflows](../../actions/)
 
 > the current utilities focus on pnpm based projects. Consider switching to pnpm or contribute utilities for other pms
+
+If your project needs some special setup when running in the Ecosystem CI, you can detect the environment by checking for the `ECOSYSTEM_CI` environment variable. It would be set to `vue` if running in the Vue Ecosystem CI.
 
 ## reporting results
 
