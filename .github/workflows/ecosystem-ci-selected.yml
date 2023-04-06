@@ -47,7 +47,7 @@ on:
           - vueuse
 jobs:
   execute-selected-suite:
-    timeout-minutes: 30
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

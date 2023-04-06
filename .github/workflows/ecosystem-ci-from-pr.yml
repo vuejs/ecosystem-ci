@@ -64,7 +64,7 @@ jobs:
             return comment.id
 
   execute-selected-suite:
-    timeout-minutes: 30
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     needs: init
     if: "inputs.suite != '-'"
@@ -85,7 +85,7 @@ jobs:
           COREPACK_ENABLE_STRICT: 0
 
   execute-all:
-    timeout-minutes: 30
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     needs: init
     if: "inputs.suite == '-'"
