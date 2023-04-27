@@ -27,13 +27,17 @@ cli
 		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
 		let vueMajor
-		if (!options.release) {
-			await setupVueRepo(options)
+
+		// Need to setup the Vue repo to get the package names
+		await setupVueRepo(options)
+
+		if (options.release) {
+			vueMajor = parseMajorVersion(options.release)
+		} else {
 			await buildVue({ verify: options.verify, publish: true })
 			vueMajor = parseVueMajor(vuePath)
-		} else {
-			vueMajor = parseMajorVersion(options.release)
 		}
+
 		const runOptions: RunOptions = {
 			root,
 			vuePath,
