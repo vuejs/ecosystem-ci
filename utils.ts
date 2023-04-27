@@ -362,6 +362,7 @@ export async function buildVue({ verify = false, publish = false }) {
 			const packageJson = JSON.parse(
 				await fs.promises.readFile(packageJsonPath, 'utf-8'),
 			)
+			packageJson.version = pkg.hashedVersion
 			for (const dep of packages) {
 				if (packageJson.dependencies?.[dep.name]) {
 					packageJson.dependencies[dep.name] = dep.hashedVersion
@@ -383,7 +384,7 @@ export async function buildVue({ verify = false, publish = false }) {
 				pkg.directory,
 				`${REGISTRY_ADDRESS.replace('http://', '//')}:_authToken=dummy`,
 			)
-			await $`yarn publish --access public --registry ${REGISTRY_ADDRESS} --new-version ${pkg.hashedVersion} --no-commit-hooks --no-git-tag-version`
+			await $`pnpm publish --access public --registry ${REGISTRY_ADDRESS} --no-git-checks`
 		}
 	}
 }
