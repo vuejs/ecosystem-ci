@@ -96,6 +96,7 @@ jobs:
           - naive-ui
           - nuxt
           - pinia
+          - quasar
           - router
           - test-utils
           - vant
