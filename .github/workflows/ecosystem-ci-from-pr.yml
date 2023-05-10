@@ -40,6 +40,7 @@ on:
           - vue-macros
           - vuetify
           - vueuse
+          - vue-simple-compiler
 jobs:
   init:
     runs-on: ubuntu-latest

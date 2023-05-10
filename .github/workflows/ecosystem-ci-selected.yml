@@ -45,6 +45,7 @@ on:
           - vue-macros
           - vuetify
           - vueuse
+          - vue-simple-compiler
 jobs:
   execute-selected-suite:
     timeout-minutes: 60
