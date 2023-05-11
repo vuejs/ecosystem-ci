@@ -200,7 +200,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 	}
 
 	if (options.agent == null) {
-		const detectedAgent = await detect({ autoInstall: false })
+		const detectedAgent = await detect({ cwd: dir, autoInstall: false })
 		if (detectedAgent == null) {
 			throw new Error(`Failed to detect packagemanager in ${dir}`)
 		}

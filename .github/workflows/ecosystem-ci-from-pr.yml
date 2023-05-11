@@ -32,6 +32,7 @@ on:
           - naive-ui
           - nuxt
           - pinia
+          - quasar
           - router
           - test-utils
           - vant
@@ -95,6 +96,7 @@ jobs:
           - naive-ui
           - nuxt
           - pinia
+          - quasar
           - router
           - test-utils
           - vant
