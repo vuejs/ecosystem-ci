@@ -515,11 +515,14 @@ export async function applyPackageOverrides(
 		// 	...pkg.devDependencies,
 		// 	...overrides, // overrides must be present in devDependencies or dependencies otherwise they may not work
 		// }
-		if (!pkg.pnpm) {
-			pkg.pnpm = {}
-		}
+		pkg.pnpm ||= {}
 		pkg.pnpm.overrides = {
 			...pkg.pnpm.overrides,
+			...overrides,
+		}
+		pkg.pnpm.peerDependencyRules ||= {}
+		pkg.pnpm.peerDependencyRules.allowedVersions = {
+			...pkg.pnpm.peerDependencyRules.allowedVersions,
 			...overrides,
 		}
 	} else if (pm === 'yarn') {
