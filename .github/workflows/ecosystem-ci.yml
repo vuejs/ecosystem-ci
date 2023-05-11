@@ -52,6 +52,7 @@ jobs:
           - vue-macros
           - vuetify
           - vueuse
+          - vue-simple-compiler
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
