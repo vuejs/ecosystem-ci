@@ -25,7 +25,35 @@ function cd(dir: string) {
 	cwd = path.resolve(cwd, dir)
 }
 
+// Execute command with `stdio: 'inherit'`
 export async function $(literals: TemplateStringsArray, ...values: any[]) {
+	const cmd = literals.reduce(
+		(result, current, i) =>
+			result + current + (values?.[i] != null ? `${values[i]}` : ''),
+		'',
+	)
+
+	if (isGitHubActions) {
+		actionsCore.startGroup(`${cwd} $> ${cmd}`)
+	} else {
+		console.log(`${cwd} $> ${cmd}`)
+	}
+
+	await execaCommand(cmd, {
+		env,
+		stdio: 'inherit',
+		cwd,
+	})
+
+	if (isGitHubActions) {
+		actionsCore.endGroup()
+	}
+}
+
+// Execute command with `stdio: 'pipe'` and returns the stdout
+// Use a separate function here because there's a bug in execa that causes EPIPE error
+// when the process executes too fast. So we only use `stdio: 'pipe'` when we need to capture the output.
+export async function $$(literals: TemplateStringsArray, ...values: any[]) {
 	const cmd = literals.reduce(
 		(result, current, i) =>
 			result + current + (values?.[i] != null ? `${values[i]}` : ''),
@@ -101,7 +129,7 @@ export async function setupRepo(options: RepoOptions) {
 		cd(dir)
 		let currentClonedRepo: string | undefined
 		try {
-			currentClonedRepo = await $`git ls-remote --get-url`
+			currentClonedRepo = await $$`git ls-remote --get-url`
 		} catch {
 			// when not a git repo
 		}
@@ -281,7 +309,7 @@ export async function getPermanentRef() {
 	const _cwd = cwd
 	cd(vuePath)
 	try {
-		const ref = await $`git log -1 --pretty=format:%h`
+		const ref = await $$`git log -1 --pretty=format:%h`
 		return ref
 	} catch (e) {
 		console.warn(`Failed to obtain perm ref. ${e}`)
@@ -433,7 +461,7 @@ export async function bisectVue(
 		await $`git bisect good ${good}`
 		let bisecting = true
 		while (bisecting) {
-			const commitMsg = await $`git log -1 --format=%s`
+			const commitMsg = await $$`git log -1 --format=%s`
 			const isNonCodeCommit = commitMsg.match(/^(?:release|docs)[:(]/)
 			if (isNonCodeCommit) {
 				await $`git bisect skip`
@@ -442,7 +470,7 @@ export async function bisectVue(
 			const error = await runSuite()
 			cd(vuePath)
 			await resetChanges()
-			const bisectOut = await $`git bisect ${error ? 'bad' : 'good'}`
+			const bisectOut = await $$`git bisect ${error ? 'bad' : 'good'}`
 			bisecting = bisectOut.substring(0, 10).toLowerCase() === 'bisecting:' // as long as git prints 'bisecting: ' there are more revisions to test
 		}
 	} catch (e) {
@@ -495,7 +523,7 @@ export async function applyPackageOverrides(
 	const pm = agent?.split('@')[0]
 
 	if (pm === 'pnpm') {
-		const version = await $`pnpm --version`
+		const version = await $$`pnpm --version`
 		// avoid bug with absolute overrides in pnpm 7.18.0
 		if (version === '7.18.0') {
 			console.warn(
