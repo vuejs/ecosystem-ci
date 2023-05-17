@@ -23,8 +23,8 @@
     "*": [
       "prettier --write --ignore-unknown"
     ],
-    "**/*.js": [
-      "eslint"
+    "*.ts": [
+      "eslint --fix"
     ]
   },
   "packageManager": "pnpm@9.1.4",
