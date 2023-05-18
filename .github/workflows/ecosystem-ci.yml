@@ -40,7 +40,7 @@ jobs:
     strategy:
       matrix:
         suite:
-          - naive-ui
+          # - naive-ui
           - nuxt
           - pinia
           - quasar

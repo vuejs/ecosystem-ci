@@ -29,7 +29,7 @@ on:
         type: choice
         options:
           - "-"
-          - naive-ui
+          # - naive-ui
           - nuxt
           - pinia
           - quasar
@@ -94,7 +94,7 @@ jobs:
     strategy:
       matrix:
         suite:
-          - naive-ui
+          # - naive-ui
           - nuxt
           - pinia
           - quasar

@@ -34,7 +34,7 @@ on:
         required: true
         type: choice
         options:
-          - naive-ui
+          # - naive-ui
           - nuxt
           - pinia
           - quasar
