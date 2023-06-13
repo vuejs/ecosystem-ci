@@ -6,6 +6,13 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'vuejs/router',
 		branch: 'main',
-		test: 'test',
+		test: [
+			'pnpm -r test:types',
+			'pnpm -r test:unit',
+			'pnpm -r build',
+			'pnpm -r build:dts',
+			'pnpm -r test:dts',
+			'pnpm -r test:e2e:ci',
+		],
 	})
 }
