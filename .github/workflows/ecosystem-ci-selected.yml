@@ -43,6 +43,7 @@ on:
           - vant
           - vite-plugin-vue
           - vitepress
+          - vue-i18n
           - vue-macros
           - vuetify
           - vueuse
