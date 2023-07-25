@@ -370,36 +370,21 @@ function writeOrAppendNpmrc(dir: string, content: string) {
 export async function buildVue({ verify = false, publish = false }) {
 	const packages = await getVuePackages()
 
-	// TODO: it's better to update the release script in the core repo than hacking it here
-	for (const pkg of packages) {
-		cd(pkg.directory)
-
-		// update buildOptions to remove browser builds to speed up builds
-		const packageJsonPath = path.join(pkg.directory, 'package.json')
-		const packageJson = JSON.parse(
-			await fs.promises.readFile(packageJsonPath, 'utf-8'),
-		)
-		if (Array.isArray(packageJson.buildOptions?.formats)) {
-			packageJson.buildOptions.formats =
-				packageJson.buildOptions.formats.filter(
-					(f: string) => !f.includes('browser') && !f.includes('global'),
-				)
-		}
-
-		await fs.promises.writeFile(
-			packageJsonPath,
-			JSON.stringify(packageJson, null, 2) + '\n',
-			'utf-8',
-		)
-	}
-
 	cd(vuePath)
 	const install = getCommand('pnpm', 'install')
+	// https://swc.rs/docs/configuration/minification#replacing-terser
+	// This could reduce CI build time significantly
+	const replaceTerser = getCommand('pnpm', 'add', [
+		'terser@npm:@swc/core',
+		'--save-dev',
+		'--ignore-workspace-root-check',
+	])
 	const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
 	const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
 	const runTest = getCommand('pnpm', 'run', ['test'])
 	// Prefix with `corepack` because pnpm 7 & 8's lockfile formats differ
 	await $`corepack ${install}`
+	await $`corepack ${replaceTerser}`
 	await $`${runBuild}`
 	await $`${runBuildDts}`
 
