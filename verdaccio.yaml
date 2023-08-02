@@ -59,4 +59,4 @@ packages:
     publish: $all
     proxy: npmjs
 
-log: { type: stdout, format: pretty, level: http }
+log: { type: stdout, format: pretty, level: warn }
