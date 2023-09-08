@@ -197,7 +197,7 @@ jobs:
             | suite | result | [latest scheduled](latestScheduledRun.html_url) |
             |-------|--------|----------------|
             ${results.map(current => {
-              const latest = scheduledResults.find(s => s.suite === r.suite) || {} // in case a new suite is added after latest scheduled
+              const latest = scheduledResults.find(s => s.suite === current.suite) || {} // in case a new suite is added after latest scheduled
 
               const firstColumn = current.suite
               const secondColumn = `${conclusionEmoji[current.conclusion]} [${current.conclusion}](${current.link})`
