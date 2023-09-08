@@ -185,9 +185,9 @@ jobs:
               run_id: latestScheduledRun.id
             });
             const scheduledResults = scheduledJobs
-              .filter(job => job.name.startsWith('execute-all '))
+              .filter(job => job.name.startsWith('test-ecosystem '))
               .map(job => {
-                const suite = job.name.replace(/^execute-all \(([^)]+)\)$/, "$1")
+                const suite = job.name.replace(/^test-ecosystem \(([^)]+)\)$/, "$1")
                 return { suite, conclusion: job.conclusion, link: job.html_url }
               })
 
