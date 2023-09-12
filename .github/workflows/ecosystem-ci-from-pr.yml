@@ -194,7 +194,7 @@ jobs:
             const body = `
             📝 Ran ecosystem CI: ${urlLink}
 
-            | suite | result | [latest scheduled](latestScheduledRun.html_url) |
+            | suite | result | [latest scheduled](${latestScheduledRun.html_url}) |
             |-------|--------|----------------|
             ${results.map(current => {
               const latest = scheduledResults.find(s => s.suite === current.suite) || {} // in case a new suite is added after latest scheduled
