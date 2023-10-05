@@ -221,7 +221,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		options.dir || repo.substring(repo.lastIndexOf('/') + 1),
 	)
 	const overrideDir = options.overrideRoot
-		? path.resolve(options.workspace, dir)
+		? path.resolve(dir, options.overrideRoot)
 		: dir
 
 	if (!skipGit) {
