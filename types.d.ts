@@ -11,6 +11,7 @@ export interface EnvironmentData {
 export interface RunOptions {
 	workspace: string
 	root: string
+	overrideRoot?: string
 	vuePath: string
 	vueMajor: number
 	verify?: boolean
