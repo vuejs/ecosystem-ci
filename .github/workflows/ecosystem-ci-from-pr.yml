@@ -29,6 +29,7 @@ on:
         type: choice
         options:
           - "-"
+          - language-tools
           # - naive-ui
           - nuxt
           - pinia
@@ -95,6 +96,7 @@ jobs:
     strategy:
       matrix:
         suite:
+          - language-tools
           # - naive-ui
           - nuxt
           - pinia
