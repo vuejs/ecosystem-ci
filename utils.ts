@@ -220,9 +220,6 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		options.workspace,
 		options.dir || repo.substring(repo.lastIndexOf('/') + 1),
 	)
-	const overrideDir = options.overrideRoot
-		? path.resolve(dir, options.overrideRoot)
-		: dir
 
 	if (!skipGit) {
 		await setupRepo({ repo, dir, branch, tag, commit })
@@ -287,7 +284,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 			overrides[pkg.name] ||= pkg.hashedVersion
 		}
 	}
-	await applyPackageOverrides(overrideDir, pkg, overrides)
+	await applyPackageOverrides(dir, pkg, overrides)
 	await beforeBuildCommand?.(pkg.scripts)
 	await buildCommand?.(pkg.scripts)
 	if (test) {
