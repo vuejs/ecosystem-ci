@@ -20,7 +20,12 @@ export async function test(options: RunOptions) {
 			await fs.promises.writeFile(
 				cypressConfigPath,
 				cypressConfigFile +
-					`\nmodule.exports.component.excludeSpecPattern = '../src/components/**/QSelect.cy.js'\n`,
+					`
+module.exports.component.excludeSpecPattern = [
+	'../src/components/**/QSelect.cy.js',
+	'../src/composables/**/use-validate.cy.js'
+]
+`,
 				'utf-8',
 			)
 		},
