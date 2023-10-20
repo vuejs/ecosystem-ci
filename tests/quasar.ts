@@ -12,12 +12,13 @@ export async function test(options: RunOptions) {
 		// Need to skip QSelect tests until https://github.com/quasarframework/quasar-testing/issues/343 is resolved
 		beforeTest: async () => {
 			const dir = path.resolve(options.workspace, 'quasar')
-			const cypressConfigPath = path.resolve(dir, 'ui/dev/cypress.config.js')
+			const cypressConfigPath = path.resolve(dir, 'ui/dev/cypress.config.cjs')
 			const cypressConfigFile = await fs.promises.readFile(
 				cypressConfigPath,
 				'utf-8',
 			)
 			await fs.promises.writeFile(
+				cypressConfigPath,
 				cypressConfigFile +
 					`\nmodule.exports.component.excludeSpecPattern = '../src/components/**/QSelect.cy.js'\n`,
 				'utf-8',
