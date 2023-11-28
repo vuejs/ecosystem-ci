@@ -22,8 +22,8 @@ export async function test(options: RunOptions) {
 			fs.writeFileSync(
 				filePath,
 				file.replace(
-					'expect(isOddComputedCollectSpy).toBeCalledTimes(2)',
 					'expect(isOddComputedCollectSpy).toBeCalledTimes(3)',
+					'expect(isOddComputedCollectSpy).toBeCalledTimes(2)',
 				),
 			)
 		},
