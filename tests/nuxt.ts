@@ -14,7 +14,7 @@ export async function test(options: RunOptions) {
 				const dir = path.resolve(options.workspace, 'nuxt')
 				const filePath = path.resolve(
 					dir,
-					'packages/nuxt/test/auto-import.test.ts',
+					'packages/nuxt/test/auto-imports.test.ts',
 				)
 				const file = fs.readFileSync(filePath, 'utf-8')
 				fs.writeFileSync(
