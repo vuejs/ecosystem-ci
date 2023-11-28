@@ -5,7 +5,7 @@ export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
 		repo: 'vuejs/language-tools',
-		branch: 'master',
+		branch: 'core-3.4',
 		build: 'build',
 		test: 'test',
 	})
