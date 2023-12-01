@@ -19,7 +19,10 @@ export async function test(options: RunOptions) {
 				const file = fs.readFileSync(filePath, 'utf-8')
 				fs.writeFileSync(
 					filePath,
-					file.replace("'compile'", "'compile', 'ErrorTypeStrings'"),
+					file.replace(
+						"'compile'",
+						"'compile', 'ErrorTypeStrings', 'DeprecationTypes', 'ErrorCodes', 'TrackOpTypes', 'TriggerOpTypes'",
+					),
 				)
 			},
 		],
