@@ -4,63 +4,71 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@actions/core':
-    specifier: ^1.10.0
-    version: 1.10.0
-  cac:
-    specifier: ^6.7.14
-    version: 6.7.14
-  execa:
-    specifier: ^6.1.0
-    version: 6.1.0
-  node-fetch:
-    specifier: ^3.3.1
-    version: 3.3.1
-  verdaccio:
-    specifier: ^5.25.0
-    version: 5.25.0(typanion@3.13.0)
-  verdaccio-auth-memory:
-    specifier: ^10.2.2
-    version: 10.2.2
+importers:
 
-devDependencies:
-  '@antfu/ni':
-    specifier: ^0.21.4
-    version: 0.21.4
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^5.62.0
-    version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.45.0)(typescript@4.9.5)
-  '@typescript-eslint/parser':
-    specifier: ^5.62.0
-    version: 5.62.0(eslint@8.45.0)(typescript@4.9.5)
-  eslint:
-    specifier: ^8.45.0
-    version: 8.45.0
-  eslint-define-config:
-    specifier: ^1.21.0
-    version: 1.21.0
-  eslint-plugin-n:
-    specifier: ^15.7.0
-    version: 15.7.0(eslint@8.45.0)
-  lint-staged:
-    specifier: ^13.2.3
-    version: 13.2.3
-  prettier:
-    specifier: ^2.8.8
-    version: 2.8.8
-  rimraf:
-    specifier: ^4.4.1
-    version: 4.4.1
-  simple-git-hooks:
-    specifier: ^2.8.1
-    version: 2.8.1
-  tsx:
-    specifier: ^3.12.7
-    version: 3.12.7
-  typescript:
-    specifier: ^4.9.5
-    version: 4.9.5
+  .:
+    dependencies:
+      '@actions/core':
+        specifier: ^1.10.0
+        version: 1.10.0
+      cac:
+        specifier: ^6.7.14
+        version: 6.7.14
+      execa:
+        specifier: ^6.1.0
+        version: 6.1.0
+      node-fetch:
+        specifier: ^3.3.1
+        version: 3.3.1
+      verdaccio:
+        specifier: ^5.25.0
+        version: 5.25.0(typanion@3.13.0)
+      verdaccio-auth-memory:
+        specifier: ^10.2.2
+        version: 10.2.2
+    devDependencies:
+      '@antfu/ni':
+        specifier: ^0.21.4
+        version: 0.21.4
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.62.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.45.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.62.0
+        version: 5.62.0(eslint@8.45.0)(typescript@4.9.5)
+      eslint:
+        specifier: ^8.45.0
+        version: 8.45.0
+      eslint-define-config:
+        specifier: ^1.21.0
+        version: 1.21.0
+      eslint-plugin-n:
+        specifier: ^15.7.0
+        version: 15.7.0(eslint@8.45.0)
+      lint-staged:
+        specifier: ^13.2.3
+        version: 13.2.3
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+      rimraf:
+        specifier: ^4.4.1
+        version: 4.4.1
+      simple-git-hooks:
+        specifier: ^2.8.1
+        version: 2.8.1
+      tsx:
+        specifier: ^3.12.7
+        version: 3.12.7
+      typescript:
+        specifier: ^4.9.5
+        version: 4.9.5
+
+  typings:
+    devDependencies:
+      '@types/node':
+        specifier: ^18.18.14
+        version: 18.19.2
 
 packages:
 
@@ -398,6 +406,12 @@ packages:
   /@types/lodash@4.14.195:
     resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
     dev: false
+
+  /@types/node@18.19.2:
+    resolution: {integrity: sha512-6wzfBdbWpe8QykUkXBjtmO3zITA0A3FIjoy+in0Y2K4KrCiRhNYJIdwAPDffZ3G6GnaKaSLSEa9ZuORLfEoiwg==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: true
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
@@ -3193,6 +3207,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+    dev: true
 
   /unix-crypt-td-js@1.1.4:
     resolution: {integrity: sha512-8rMeVYWSIyccIJscb9NdCfZKSRBKYTeVnwmiRYT2ulE3qd1RaDQ0xQDP+rI3ccIWbhu/zuo5cgN8z73belNZgw==}
