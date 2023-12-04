@@ -13,7 +13,6 @@
 		"useUnknownInCatchVariables": false,
 		"allowSyntheticDefaultImports": true,
 		"lib": ["esnext"],
-		"sourceMap": true,
-		"typeRoots": ["./typings/node_modules/@types"]
+		"sourceMap": true
 	}
 }

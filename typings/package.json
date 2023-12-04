@@ -1,9 +1,0 @@
-{
-  "name": "typings",
-  "version": "0.0.0",
-  "private": true,
-  "description": "Alternative typing root directory for the project in order not to pollute the root node_modules",
-  "devDependencies": {
-    "@types/node": "^18.18.14"
-  }
-}
