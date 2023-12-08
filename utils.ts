@@ -567,9 +567,13 @@ export async function applyPackageOverrides(
 		'utf-8',
 	)
 
+	// While `--registry` works for the `install` command,
+	// we still need to persist the registry in `.npmrc` for any possible
+	// subsequent commands that needs to connect to the registry.
+	writeOrAppendNpmrc(dir, `registry=${REGISTRY_ADDRESS}\n`)
+
 	// use of `ni` command here could cause lockfile violation errors so fall back to native commands that avoid these
 	if (pm === 'pnpm') {
-		// FIXME: write/append to npmrc instead
 		await $`pnpm install --no-frozen-lockfile --no-strict-peer-dependencies --registry ${REGISTRY_ADDRESS}`
 	} else if (pm === 'yarn') {
 		await $`yarn install --registry ${REGISTRY_ADDRESS}`
