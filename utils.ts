@@ -575,13 +575,10 @@ export async function applyPackageOverrides(
 	// use of `ni` command here could cause lockfile violation errors so fall back to native commands that avoid these
 	if (pm === 'pnpm') {
 		await $`pnpm install --no-frozen-lockfile --no-strict-peer-dependencies --registry ${REGISTRY_ADDRESS}`
-		await $`pnpm dedupe`
 	} else if (pm === 'yarn') {
 		await $`yarn install --registry ${REGISTRY_ADDRESS}`
-		// TODO: run `npx yarn-deduplicate` for Yarn v1 and `yarn dedupe` for Yarn >= v2
 	} else if (pm === 'npm') {
 		await $`npm install --registry ${REGISTRY_ADDRESS}`
-		await $`npm dedupe`
 	}
 }
 
