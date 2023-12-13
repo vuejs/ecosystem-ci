@@ -6,7 +6,6 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'vuejs/language-tools',
 		branch: 'master',
-		beforeBuild: 'pnpm dedupe',
 		build: 'build',
 		test: 'test',
 	})
