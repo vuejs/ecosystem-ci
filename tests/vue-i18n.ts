@@ -12,7 +12,7 @@ export async function test(options: RunOptions) {
 		beforeTest: [
 			'pnpm playwright install chromium',
 			async () => {
-				const dir = path.resolve(options.workspace, 'vue-i18n')
+				const dir = path.resolve(options.workspace, 'vue-i18n-next')
 				const filePath = path.resolve(
 					dir,
 					'test-dts/vue-i18n/components.test-d.tsx',
