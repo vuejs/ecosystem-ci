@@ -11,15 +11,9 @@ export async function test(options: RunOptions) {
 		build: 'yarn workspace vuetify run build',
 		async beforeTest() {
 			const dir = path.resolve(options.workspace, 'vuetify')
-			const filePath = path.resolve(dir, 'tsconfig.base.json')
+			const filePath = path.resolve(dir, 'packages/vuetify/src/globals.d.ts')
 			const file = fs.readFileSync(filePath, 'utf-8')
-			fs.writeFileSync(
-				filePath,
-				file.replace(
-					'"jsx": "preserve",',
-					'"jsx": "preserve",\n  "jsxImportSource": "vue",',
-				),
-			)
+			fs.writeFileSync(filePath, `import 'vue/jsx'\n` + file)
 		},
 		// there's also an e2e test script in vuetify,
 		// but it seems flaky, so I skipped it for now
