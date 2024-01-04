@@ -1,5 +1,3 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import { runInRepo } from '../utils'
 import { RunOptions } from '../types'
 
@@ -9,26 +7,17 @@ export async function test(options: RunOptions) {
 		repo: 'quasarframework/quasar',
 		branch: 'dev',
 		build: 'vue-ecosystem-ci:build',
-		// Need to skip QSelect tests until https://github.com/quasarframework/quasar-testing/issues/343 is resolved
-		beforeTest: async () => {
-			const dir = path.resolve(options.workspace, 'quasar')
-			const cypressConfigPath = path.resolve(dir, 'ui/dev/cypress.config.cjs')
-			const cypressConfigFile = await fs.promises.readFile(
-				cypressConfigPath,
-				'utf-8',
-			)
-			await fs.promises.writeFile(
-				cypressConfigPath,
-				cypressConfigFile +
-					`
-module.exports.component.excludeSpecPattern = [
-	'../src/components/**/QSelect.cy.js',
-	'../src/composables/**/use-validate.cy.js'
-]
-`,
-				'utf-8',
-			)
-		},
 		test: 'vue-ecosystem-ci:test',
+		// Need to skip QSelect tests until https://github.com/quasarframework/quasar-testing/issues/343 is resolved
+		patchFiles: {
+			'ui/dev/cypress.config.cjs': (content) =>
+				content +
+				`
+					module.exports.component.excludeSpecPattern = [
+						'../src/components/**/QSelect.cy.js',
+						'../src/composables/**/use-validate.cy.js'
+					]
+					`,
+		},
 	})
 }
