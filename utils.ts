@@ -215,6 +215,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		beforeInstall,
 		beforeBuild,
 		beforeTest,
+		patchFiles,
 	} = options
 	const dir = path.resolve(
 		options.workspace,
@@ -285,6 +286,17 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		}
 	}
 	await applyPackageOverrides(dir, pkg, overrides)
+
+	if (patchFiles) {
+		for (const fileName in patchFiles) {
+			const filePath = path.resolve(dir, fileName)
+			const patchFn = patchFiles[fileName]
+			const content = fs.readFileSync(filePath, 'utf-8')
+			fs.writeFileSync(filePath, patchFn(content))
+			console.log(`patched file: ${fileName}`)
+		}
+	}
+
 	await beforeBuildCommand?.(pkg.scripts)
 	await buildCommand?.(pkg.scripts)
 	if (test) {

@@ -22,6 +22,7 @@ export interface RunOptions {
 	beforeInstall?: Task | Task[]
 	beforeBuild?: Task | Task[]
 	beforeTest?: Task | Task[]
+	patchFiles?: Record<string, (content: string) => string>
 }
 
 type Task = string | (() => Promise<any>)
