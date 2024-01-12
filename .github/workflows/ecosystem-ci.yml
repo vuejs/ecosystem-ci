@@ -45,6 +45,7 @@ jobs:
           - nuxt
           - pinia
           - quasar
+          - radix-vue
           - router
           - test-utils
           - vant
