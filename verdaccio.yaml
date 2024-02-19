@@ -60,3 +60,4 @@ packages:
     proxy: npmjs
 
 log: { type: stdout, format: pretty, level: warn }
+logs: { type: stdout, format: pretty, level: warn }
