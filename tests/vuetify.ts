@@ -17,7 +17,7 @@ export async function test(options: RunOptions) {
 				// Therefore a "Duplicate identifier" TS error occurs when building.
 				// But we can't run dedupe in the vuetify repo, as the build would fail, too.
 				// So we need to overwrite the version to ^1.1.0 to avoid duplications of the dependency.
-				pkg.resolutions['source-map-js'] = '^1.1.0'
+				pkg.resolutions['source-map-js'] = '^1.2.0'
 				return JSON.stringify(pkg, null, 2)
 			},
 		},
