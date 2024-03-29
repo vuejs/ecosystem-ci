@@ -25,7 +25,7 @@ export interface RunOptions {
 	patchFiles?: Record<string, (content: string) => string>
 }
 
-type Task = string | (() => Promise<any>)
+type Task = string | { script: string; args?: string[] } | (() => Promise<any>)
 
 export interface CommandOptions {
 	suites?: string[]
