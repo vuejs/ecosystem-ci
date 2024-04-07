@@ -46,7 +46,7 @@
     "cac": "^6.7.14",
     "execa": "^6.1.0",
     "node-fetch": "^3.3.2",
-    "verdaccio": "^5.30.2",
+    "verdaccio": "^5.30.3",
     "verdaccio-auth-memory": "^10.2.2"
   },
   "devDependencies": {
