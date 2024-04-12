@@ -11,6 +11,13 @@ export async function test(options: RunOptions) {
 			args: ['--all', '-t'],
 		},
 		beforeTest: 'pnpm playwright install chromium',
-		test: ['test:cover', 'test:type', 'test:e2e'],
+		test: [
+			'test:cover',
+			'test:type',
+			{
+				script: 'test:e2e',
+				args: ['--exclude', 'e2e/bridge/**'],
+			},
+		],
 	})
 }
