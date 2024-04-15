@@ -9,7 +9,7 @@ export async function test(options: RunOptions) {
 		build: 'yarn workspace vuetify run build',
 		// there's also an e2e test script in vuetify,
 		// but it seems flaky, so I skipped it for now
-		test: ['yarn lerna run test:coverage -- -- -i'],
+		test: ['yarn workspace vuetify run test:coverage -i'],
 		patchFiles: {
 			'package.json': (content) => {
 				const pkg = JSON.parse(content)
