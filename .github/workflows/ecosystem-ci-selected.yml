@@ -38,6 +38,7 @@ on:
           # - naive-ui
           - nuxt
           - pinia
+          - primevue
           - quasar
           - radix-vue
           - router
