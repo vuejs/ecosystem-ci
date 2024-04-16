@@ -33,6 +33,7 @@ on:
           # - naive-ui
           - nuxt
           - pinia
+          - primevue
           - quasar
           - radix-vue
           - router
@@ -101,6 +102,7 @@ jobs:
           # - naive-ui
           - nuxt
           - pinia
+          - primevue
           - quasar
           - radix-vue
           - router
