@@ -23,6 +23,8 @@ Workflows are sheduled to run automatically every Monday, Wednesday and Friday
 - or `pnpm test <suitename>` to select a suite
 - or `tsx ecosystem-ci.ts`
 
+Note if you are not using `pnpm` through `corepack` locally, you need to prepend every command with `COREPACK_ENABLE_STRICT=0 `.
+
 You can pass `--tag v3.2.0-beta.1`, `--branch somebranch` or `--commit abcd1234` option to select a specific vue version to build.
 If you pass `--release 3.2.45`, vue build will be skipped and vue is fetched from the registry instead.
 
