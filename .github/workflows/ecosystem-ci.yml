@@ -58,6 +58,8 @@ jobs:
           - vueuse
           - vue-simple-compiler
       fail-fast: false
+    outputs:
+      suite: ${{ matrix.suite }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -86,3 +88,34 @@ jobs:
           STATUS: ${{ job.status }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # TODO:
+  # move this job into a standalone workflow
+  # so that it can be triggered by other workflows via workflow_dispatch
+  test-ecosystem-snapshot:
+    needs: test-ecosystem
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - run: echo ${{ needs.test-ecosystem.outputs.suite }}
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
+          script: |
+            // first, list workflow runs for ecosystem-ci.yml
+            const { data: { workflow_runs } } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'ecosystem-ci.yml',
+              event: 'schedule',
+              status: 'completed'
+            });
+
+            // the default number of results per page is 30,
+            // that covers the last 10 weeks of runs, which should be enough
+
+            // TODO:
+            // check for previous scheduled `test-ecosystem` job runs and find the last successful one
+            // use that timestamp to get the snapshot of the corresponding repository
+            // then run again the failed suite with the snapshot
