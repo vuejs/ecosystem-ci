@@ -4,7 +4,7 @@ import { RunOptions } from '../types'
 export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
-		repo: 'intlify/vue-i18n-next',
+		repo: 'intlify/vue-i18n',
 		branch: 'master',
 		build: {
 			script: 'build',
