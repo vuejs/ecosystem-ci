@@ -6,7 +6,7 @@ This repository is used to run integration tests for vue ecosystem projects
 
 ### scheduled
 
-Workflows are sheduled to run automatically every Monday, Wednesday and Friday
+Workflows are scheduled to run automatically every Monday, Wednesday and Friday
 
 ### manually
 
