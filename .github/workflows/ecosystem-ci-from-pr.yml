@@ -48,6 +48,7 @@ on:
           - vue-simple-compiler
 jobs:
   init:
+    name: "Running for PR #${{ github.event.inputs.prNumber }}"
     runs-on: ubuntu-latest
     outputs:
       comment-id: ${{ steps.create-comment.outputs.result }}
