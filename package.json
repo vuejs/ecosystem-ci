@@ -30,7 +30,7 @@
   "type": "module",
   "engines": {
     "node": ">=18",
-    "pnpm": "^9.0.6"
+    "pnpm": "^9.1.4"
   },
   "repository": {
     "type": "git",
