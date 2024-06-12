@@ -5,7 +5,7 @@ export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
 		repo: 'primefaces/primevue',
-		tag: '3.51.0',
+		tag: '3.52.0',
 		build: 'build',
 		test: 'test:unit',
 		patchFiles: {
