@@ -1,6 +1,6 @@
 import path from 'node:path'
-import { runInRepo } from '../utils'
-import { RunOptions } from '../types'
+import { runInRepo } from '../utils.ts'
+import { RunOptions } from '../types.ts'
 
 export async function test(options: RunOptions) {
 	await runInRepo({

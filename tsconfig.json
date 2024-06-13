@@ -4,7 +4,8 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"module": "NodeNext",
-		"moduleResolution": "node",
+		"moduleResolution": "NodeNext",
+		"allowImportingTsExtensions": true,
 		"strict": true,
 		"declaration": true,
 		"noImplicitOverride": true,
@@ -14,6 +15,8 @@
 		"allowSyntheticDefaultImports": true,
 		"lib": ["esnext"],
 		"sourceMap": true,
-		"typeRoots": ["./typings/node_modules/@types"]
+		"typeRoots": ["./typings/node_modules/@types"],
+		"noEmit": true,
+		"skipLibCheck": true
 	}
 }

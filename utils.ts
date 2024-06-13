@@ -9,8 +9,8 @@ import {
 	RepoOptions,
 	RunOptions,
 	Task,
-} from './types'
-import { REGISTRY_ADDRESS, startRegistry } from './registry'
+} from './types.ts'
+import { REGISTRY_ADDRESS, startRegistry } from './registry.ts'
 //eslint-disable-next-line n/no-unpublished-import
 import { detect, AGENTS, Agent, getCommand } from '@antfu/ni'
 import actionsCore from '@actions/core'
@@ -87,7 +87,6 @@ let app: any
 export async function setupEnvironment(): Promise<EnvironmentData> {
 	app = await startRegistry()
 
-	// @ts-expect-error import.meta
 	const root = dirnameFrom(import.meta.url)
 	const workspace = path.resolve(root, 'workspace')
 	vuePath = path.resolve(workspace, 'core')

@@ -12,11 +12,9 @@ export const REGISTRY_ADDRESS = `http://localhost:${LOCAL_REGISTRY_PORT}/`
 export async function startRegistry() {
 	// It's not ideal to repeat this config option here,
 	// luckily, `self_path` would no longer be required in verdaccio 6
-	// @ts-expect-error import.meta
 	const cache = fileURLToPath(new URL('./.verdaccio-cache', import.meta.url))
 	const config = {
 		...parseConfigFile(
-			// @ts-expect-error import.meta
 			fileURLToPath(new URL('./verdaccio.yaml', import.meta.url)),
 		),
 		self_path: cache,

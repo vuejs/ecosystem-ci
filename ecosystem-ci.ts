@@ -11,8 +11,8 @@ import {
 	bisectVue,
 	parseVueMajor,
 	parseMajorVersion,
-} from './utils'
-import { CommandOptions, RunOptions } from './types'
+} from './utils.ts'
+import { CommandOptions, RunOptions } from './types.ts'
 
 const cli = cac()
 cli
