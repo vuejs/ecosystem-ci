@@ -35,7 +35,7 @@ If you want to test the same version of vue multiple times, please run `pnpm cle
 ## how to add a new integration test
 
 - check out the existing [tests](./tests) and add one yourself. Thanks to some utilities it is really easy
-- once you are confidente the suite works, add it to the lists of suites in the [workflows](../../actions/)
+- once you are confident the suite works, add it to the lists of suites in the [workflows](../../actions/)
 
 > the current utilities focus on pnpm based projects. Consider switching to pnpm or contribute utilities for other pms
 
