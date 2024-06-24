@@ -11,11 +11,11 @@ export async function test(options: RunOptions) {
 		build: 'build',
 		test: 'test',
 		patchFiles: {
-			'package.json': (content) => {
-				const pkg = JSON.parse(content)
-				pkg.devDependencies.typescript = '~5.4.5'
-				return JSON.stringify(pkg, null, 2)
-			},
+			// 'package.json': (content) => {
+			// 	const pkg = JSON.parse(content)
+			// 	pkg.devDependencies.typescript = '~5.4.5'
+			// 	return JSON.stringify(pkg, null, 2)
+			// },
 		},
 	})
 }
