@@ -28,11 +28,11 @@
       "eslint --fix"
     ]
   },
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@9.5.0",
   "type": "module",
   "engines": {
     "node": ">=18",
-    "pnpm": "^9.3.0"
+    "pnpm": "^9.5.0"
   },
   "repository": {
     "type": "git",
