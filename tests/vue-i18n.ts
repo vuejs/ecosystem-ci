@@ -10,7 +10,7 @@ export async function test(options: RunOptions) {
 			script: 'build',
 			args: ['--all', '-t'],
 		},
-		beforeTest: 'pnpm playwright install chromium',
+		beforeTest: 'pnpm playwright-core install chromium',
 		test: [
 			'test:cover',
 			'test:type',
