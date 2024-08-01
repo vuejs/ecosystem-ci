@@ -620,7 +620,7 @@ export function dirnameFrom(url: string) {
 	return path.dirname(fileURLToPath(url))
 }
 
-export function parseVueVersion(vuePath: string): number {
+export function parseVueVersion(vuePath: string): string {
 	const content = fs.readFileSync(
 		path.join(vuePath, 'packages', 'vue', 'package.json'),
 		'utf-8',
