@@ -12,7 +12,7 @@ export interface RunOptions {
 	workspace: string
 	root: string
 	vuePath: string
-	vueMajor: number
+	vueVersion: string
 	verify?: boolean
 	skipGit?: boolean
 	release?: string

@@ -11,11 +11,15 @@ export async function test(options: RunOptions) {
 		build: 'build',
 		test: 'test',
 		patchFiles: {
-			// 'package.json': (content) => {
-			// 	const pkg = JSON.parse(content)
-			// 	pkg.devDependencies.typescript = '~5.4.5'
-			// 	return JSON.stringify(pkg, null, 2)
-			// },
+			'packages/tsc/tests/index.spec.ts': (content) => {
+				if (!options.vueVersion.startsWith('3.4')) {
+					return content
+				}
+				return content.replace(
+					'for (const file of files) {',
+					"for (const file of files) { if (file.includes('vue3.5')) continue;",
+				)
+			},
 		},
 	})
 }

@@ -9,8 +9,7 @@ import {
 	setupVueRepo,
 	buildVue,
 	bisectVue,
-	parseVueMajor,
-	parseMajorVersion,
+	parseVueVersion,
 } from './utils.ts'
 import { CommandOptions, RunOptions } from './types.ts'
 
@@ -26,22 +25,22 @@ cli
 	.action(async (suites, options: CommandOptions) => {
 		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
-		let vueMajor
+		let vueVersion
 
 		// Need to setup the Vue repo to get the package names
 		await setupVueRepo(options)
 
 		if (options.release) {
-			vueMajor = parseMajorVersion(options.release)
+			vueVersion = options.release
 		} else {
 			await buildVue({ verify: options.verify, publish: true })
-			vueMajor = parseVueMajor(vuePath)
+			vueVersion = parseVueVersion(vuePath)
 		}
 
 		const runOptions: RunOptions = {
 			root,
 			vuePath,
-			vueMajor,
+			vueVersion,
 			workspace,
 			release: options.release,
 			verify: options.verify,
@@ -91,7 +90,7 @@ cli
 			...options,
 			root,
 			vuePath,
-			vueMajor: parseVueMajor(vuePath),
+			vueVersion: parseVueVersion(vuePath),
 			workspace,
 		}
 		for (const suite of suitesToRun) {
@@ -131,7 +130,7 @@ cli
 						skipGit: !isFirstRun,
 						root,
 						vuePath,
-						vueMajor: parseVueMajor(vuePath),
+						vueVersion: parseVueVersion(vuePath),
 						workspace,
 					})
 				}
