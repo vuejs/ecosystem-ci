@@ -406,19 +406,11 @@ export async function buildVue({ verify = false, publish = false }) {
 
 	cd(vuePath)
 	const install = getCommand('pnpm', 'install')
-	// https://swc.rs/docs/configuration/minification#replacing-terser
-	// This could reduce CI build time significantly
-	const replaceTerser = getCommand('pnpm', 'add', [
-		'terser@npm:@swc/core',
-		'--save-dev',
-		'--ignore-workspace-root-check',
-	])
 	const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
 	const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
 	const runTest = getCommand('pnpm', 'run', ['test'])
 	// Prefix with `corepack` because pnpm 7 & 8's lockfile formats differ
 	await $`corepack ${install}`
-	await $`corepack ${replaceTerser}`
 	await $`${runBuild}`
 	await $`${runBuildDts}`
 
