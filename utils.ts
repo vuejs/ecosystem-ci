@@ -409,6 +409,9 @@ export async function buildVue({ verify = false, publish = false }) {
 	const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
 	const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
 	const runTest = getCommand('pnpm', 'run', ['test'])
+
+	let s = performance.now()
+
 	// Prefix with `corepack` because pnpm 7 & 8's lockfile formats differ
 	await $`corepack ${install}`
 	await $`${runBuild}`
@@ -418,7 +421,13 @@ export async function buildVue({ verify = false, publish = false }) {
 		await $`${runTest}`
 	}
 
+	console.log()
+	console.log(`Built in ${(performance.now() - s).toFixed(0)}ms`)
+	console.log()
+
 	if (publish) {
+		s = performance.now()
+
 		// TODO: prompt for `pnpm clean` if the same version already exists
 		// TODO: it's better to update the release script in the core repo than hacking it here
 		for (const pkg of packages) {
@@ -453,6 +462,10 @@ export async function buildVue({ verify = false, publish = false }) {
 			)
 			await $`pnpm publish --access public --registry ${REGISTRY_ADDRESS} --no-git-checks`
 		}
+
+		console.log()
+		console.log(`Published in ${(performance.now() - s).toFixed(0)}ms`)
+		console.log()
 	}
 }
 
