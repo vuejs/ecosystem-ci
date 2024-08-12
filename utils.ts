@@ -18,6 +18,7 @@ import actionsCore from '@actions/core'
 const isGitHubActions = !!process.env.GITHUB_ACTIONS
 
 let vuePath: string
+let builtPath: string
 let cwd: string
 let env: ProcessEnv
 
@@ -101,6 +102,7 @@ export async function setupEnvironment(): Promise<EnvironmentData> {
 	const root = dirnameFrom(import.meta.url)
 	const workspace = path.resolve(root, 'workspace')
 	vuePath = path.resolve(workspace, 'core')
+	builtPath = path.resolve(root, 'built-packages')
 	cwd = process.cwd()
 	env = {
 		...process.env,
@@ -372,6 +374,7 @@ export async function getVuePackages() {
 					fs.readFileSync(`${directory}/package.json`, 'utf-8'),
 				)
 				return {
+					dirName: name,
 					directory,
 					packageJson,
 				}
@@ -380,8 +383,9 @@ export async function getVuePackages() {
 			.filter(({ packageJson }) => {
 				return !packageJson.private
 			})
-			.map(({ packageJson, directory }) => ({
+			.map(({ dirName, packageJson, directory }) => ({
 				name: packageJson.name,
+				dirName,
 				version: packageJson.version,
 				// if `build-vue` and `run-suites` are run separately, the version would already include commit hash
 				hashedVersion: packageJson.version.includes(commitHash)
@@ -404,29 +408,50 @@ function writeOrAppendNpmrc(dir: string, content: string) {
 export async function buildVue({ verify = false, publish = false }) {
 	const packages = await getVuePackages()
 
-	cd(vuePath)
-	const install = getCommand('pnpm', 'install')
-	const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
-	const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
-	const runTest = getCommand('pnpm', 'run', ['test'])
+	const hasBuilt = fs.existsSync(builtPath)
 
-	let s = performance.now()
+	if (!hasBuilt) {
+		const s = performance.now()
 
-	// Prefix with `corepack` because pnpm 7 & 8's lockfile formats differ
-	await $`corepack ${install}`
-	await $`${runBuild}`
-	await $`${runBuildDts}`
+		cd(vuePath)
+		const install = getCommand('pnpm', 'install')
+		const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
+		const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
+		const runTest = getCommand('pnpm', 'run', ['test'])
 
-	if (verify) {
-		await $`${runTest}`
+		// Prefix with `corepack` because pnpm 7 & 8's lockfile formats differ
+		await $`corepack ${install}`
+		await $`${runBuild}`
+		await $`${runBuildDts}`
+
+		if (verify) {
+			await $`${runTest}`
+		}
+
+		console.log()
+		console.log(`Built in ${(performance.now() - s).toFixed(0)}ms`)
+		console.log()
+	} else {
+		console.log()
+		console.log(`Built packages found, copying...`)
+		console.log()
+		// copy built files into repo
+		for (const pkg of packages) {
+			const targetDir = path.join(pkg.directory, 'dist')
+			const fromDir = path.join(builtPath, pkg.dirName, 'dist')
+			const files = fs.readdirSync(fromDir)
+			if (fs.existsSync(targetDir)) {
+				fs.rmSync(targetDir, { recursive: true })
+			}
+			fs.mkdirSync(targetDir)
+			for (const f of files) {
+				fs.copyFileSync(path.join(fromDir, f), path.join(targetDir, f))
+			}
+		}
 	}
 
-	console.log()
-	console.log(`Built in ${(performance.now() - s).toFixed(0)}ms`)
-	console.log()
-
 	if (publish) {
-		s = performance.now()
+		const s = performance.now()
 
 		// TODO: prompt for `pnpm clean` if the same version already exists
 		// TODO: it's better to update the release script in the core repo than hacking it here

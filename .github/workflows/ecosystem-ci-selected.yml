@@ -61,6 +61,29 @@ jobs:
         with:
           node-version: 20.14.0
         id: setup-node
+
+      - name: Download built packages (branch)
+        if: inputs.refType == 'branch'
+        uses: dawidd6/action-download-artifact@v4
+        with:
+          repo: ${{ inputs.repo }}
+          branch: ${{ inputs.ref }}
+          name: packages
+          github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
+          path: built-packages
+          if_no_artifact_found: warn
+
+      - name: Download built packages (commit)
+        if: inputs.refType == 'commit'
+        uses: dawidd6/action-download-artifact@v4
+        with:
+          repo: ${{ inputs.repo }}
+          commit: ${{ inputs.ref }}
+          name: packages
+          github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
+          path: built-packages
+          if_no_artifact_found: warn
+
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile
@@ -72,14 +95,3 @@ jobs:
         id: ecosystem-ci-run
         env:
           COREPACK_ENABLE_STRICT: 0
-      - if: always()
-        run: pnpm tsx discord-webhook.ts
-        env:
-          WORKFLOW_NAME: ci-selected
-          REF_TYPE: ${{ inputs.refType }}
-          REF: ${{ inputs.ref }}
-          REPO: ${{ inputs.repo }}
-          SUITE: ${{ inputs.suite }}
-          STATUS: ${{ job.status }}
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

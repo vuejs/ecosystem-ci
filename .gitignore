@@ -7,3 +7,4 @@ workspace
 .pnpm-debug.log
 .idea
 .verdaccio-cache
+built-packages
