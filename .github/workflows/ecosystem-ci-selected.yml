@@ -67,6 +67,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v4
         with:
           repo: ${{ inputs.repo }}
+          workflow: upload-packages.yml
           branch: ${{ inputs.ref }}
           name: packages
           github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
@@ -78,6 +79,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v4
         with:
           repo: ${{ inputs.repo }}
+          workflow: upload-packages.yml
           commit: ${{ inputs.ref }}
           name: packages
           github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
