@@ -66,12 +66,12 @@ jobs:
         id: setup-node
 
       - name: Download built packages (branch)
-        if: inputs.refType == 'branch'
+        if: inputs.refType == 'branch' || github.event_name == 'schedule'
         uses: dawidd6/action-download-artifact@v4
         with:
           repo: ${{ inputs.repo }}
           workflow: upload-packages.yml
-          branch: ${{ inputs.ref }}
+          branch: ${{ github.event_name == 'schedule' && 'main' || inputs.ref }}
           name: packages
           github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           path: built-packages
