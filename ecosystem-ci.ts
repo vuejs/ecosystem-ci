@@ -22,6 +22,7 @@ cli
 	.option('--tag <tag>', 'vue tag to use')
 	.option('--commit <commit>', 'vue commit sha to use')
 	.option('--release <version>', 'vue release to use from npm registry')
+	.option('--local', 'test locally')
 	.action(async (suites, options: CommandOptions) => {
 		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
@@ -33,7 +34,9 @@ cli
 		if (options.release) {
 			vueVersion = options.release
 		} else {
-			await buildVue({ verify: options.verify, publish: true })
+			if (!options.local) {
+				await buildVue({ verify: options.verify, publish: true })
+			}
 			vueVersion = parseVueVersion(vuePath)
 		}
 

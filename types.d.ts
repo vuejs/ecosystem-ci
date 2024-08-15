@@ -37,6 +37,7 @@ export interface CommandOptions {
 	verify?: boolean
 	publish?: boolean
 	skipGit?: boolean
+	local?: boolean
 }
 
 export interface RepoOptions {
