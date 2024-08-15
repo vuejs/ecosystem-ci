@@ -69,7 +69,7 @@ jobs:
         if: inputs.refType == 'branch' || github.event_name == 'schedule'
         uses: dawidd6/action-download-artifact@v4
         with:
-          repo: ${{ inputs.repo }}
+          repo: ${{ github.event_name == 'schedule' && 'vuejs/core' || inputs.repo }}
           workflow: upload-packages.yml
           branch: ${{ github.event_name == 'schedule' && 'main' || inputs.ref }}
           name: packages
