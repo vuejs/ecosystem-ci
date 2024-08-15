@@ -5,7 +5,7 @@ export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
 		repo: 'sxzz/unplugin-vue-macros',
-		branch: 'main',
+		branch: 'vue-ecosystem-ci',
 		build: 'build',
 		test: ['test:ecosystem'],
 	})
