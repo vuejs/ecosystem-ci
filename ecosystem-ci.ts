@@ -34,8 +34,10 @@ cli
 		// Need to setup the Vue repo to get the package names
 		await setupVueRepo(options)
 
+		const isSelfTest = suites.length === 1 && suites[0] === '_selftest'
+
 		// Normalize branch / commit to pkg.pr.new releases
-		if (!options.release && !options.tag && !options.local) {
+		if (!isSelfTest && !options.release && !options.tag && !options.local) {
 			if (options.commit) {
 				options.release = `@${options.commit.slice(0, 7)}`
 			} else if (options.repo === 'vuejs/core' && options.branch) {
