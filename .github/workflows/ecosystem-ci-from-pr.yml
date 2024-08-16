@@ -141,12 +141,12 @@ jobs:
           pnpm tsx ecosystem-ci.ts
           --branch ${{ inputs.branchName }}
           --repo ${{ inputs.repo }}
-          ${{ inputs.suite }}
+          ${{ matrix.suite }}
         env:
           COREPACK_ENABLE_STRICT: 0
 
       - if: ${{ inputs.commit }}
-        run: pnpm tsx ecosystem-ci.ts --commit ${{ inputs.commit }} ${{ inputs.suite }}
+        run: pnpm tsx ecosystem-ci.ts --commit ${{ inputs.commit }} ${{ matrix.suite }}
         env:
           COREPACK_ENABLE_STRICT: 0
 
