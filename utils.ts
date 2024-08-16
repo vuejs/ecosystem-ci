@@ -301,8 +301,13 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 	const vuePackages = await getVuePackages()
 
 	if (options.release) {
+		// pkg.pr.new support
 		for (const pkg of vuePackages) {
-			if (overrides[pkg.name] && overrides[pkg.name] !== options.release) {
+			let version = options.release
+			if (options.release.startsWith('@')) {
+				version = `https://pkg.pr.new/${pkg.name}@${options.release.slice(1)}`
+			}
+			if (overrides[pkg.name] && overrides[pkg.name] !== version) {
 				throw new Error(
 					`conflicting overrides[${pkg.name}]=${
 						overrides[pkg.name]
@@ -311,7 +316,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 					} config. Use either one or the other`,
 				)
 			} else {
-				overrides[pkg.name] = options.release
+				overrides[pkg.name] = version
 			}
 		}
 	} else {

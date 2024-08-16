@@ -21,8 +21,11 @@ cli
 	.option('--branch <branch>', 'vue branch to use', { default: 'main' })
 	.option('--tag <tag>', 'vue tag to use')
 	.option('--commit <commit>', 'vue commit sha to use')
-	.option('--release <version>', 'vue release to use from npm registry')
-	.option('--local', 'test locally')
+	.option(
+		'--release <version>',
+		'vue release to use from npm registry or pkg.pr.new.',
+	)
+	.option('--local', 'test locally (expects built-packages to be present)')
 	.action(async (suites, options: CommandOptions) => {
 		const { root, vuePath, workspace } = await setupEnvironment()
 		const suitesToRun = getSuitesToRun(suites, root)
@@ -30,6 +33,15 @@ cli
 
 		// Need to setup the Vue repo to get the package names
 		await setupVueRepo(options)
+
+		// Normalize branch / commit to pkg.pr.new releases
+		if (!options.release && !options.tag && !options.local) {
+			if (options.commit) {
+				options.release = `@${options.commit.slice(0, 7)}`
+			} else if (options.repo === 'vuejs/core' && options.branch) {
+				options.release = `@${options.branch}`
+			}
+		}
 
 		if (options.release) {
 			vueVersion = options.release

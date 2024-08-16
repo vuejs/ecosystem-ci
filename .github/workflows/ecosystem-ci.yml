@@ -65,30 +65,6 @@ jobs:
           node-version: 20.14.0
         id: setup-node
 
-      - name: Download built packages (branch)
-        if: inputs.refType == 'branch' || github.event_name == 'schedule'
-        uses: dawidd6/action-download-artifact@v4
-        with:
-          repo: ${{ github.event_name == 'schedule' && 'vuejs/core' || inputs.repo }}
-          workflow: upload-packages.yml
-          branch: ${{ github.event_name == 'schedule' && 'main' || inputs.ref }}
-          name: packages
-          github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
-          path: built-packages
-          if_no_artifact_found: warn
-
-      - name: Download built packages (commit)
-        if: inputs.refType == 'commit'
-        uses: dawidd6/action-download-artifact@v4
-        with:
-          repo: ${{ inputs.repo }}
-          workflow: upload-packages.yml
-          commit: ${{ inputs.ref }}
-          name: packages
-          github_token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
-          path: built-packages
-          if_no_artifact_found: warn
-
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile

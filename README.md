@@ -2,6 +2,14 @@
 
 This repository is used to run integration tests for vue ecosystem projects
 
+## How it works
+
+We now have continuous release like [this](https://github.com/vuejs/core/runs/28854321865) via [pkg.pr.new](https://github.com/stackblitz-labs/pkg.pr.new). By default when running against a branch or a commit, we will use the corresponding release from `pkg.pr.new` so we don't need to build / mock publish the packages again.
+
+We will use pnpm override to force install the specific version of Vue in the downstream projects and then run their tests.
+
+In cases where we cannot use pre-built packages, the script will perform a fresh build by pulling the specific Vue branch / commit and publish them to a local verdaccio registry.
+
 ## via github workflow
 
 ### scheduled
@@ -31,6 +39,19 @@ If you pass `--release 3.2.45`, vue build will be skipped and vue is fetched fro
 The repositories are checked out into `workspace` subdirectory as shallow clones.
 
 If you want to test the same version of vue multiple times, please run `pnpm clean` first to ensure the workspace is clean.
+
+### Running against local build
+
+To run against the local build, link the `packages` directory of a local `vuejs/core` clone to `built-packages` inside this repo, then run with the `--local` option.
+
+### Explicitly running against pkg.pr.new releases
+
+You can run against a specific continuous release via `--release @<commit or branch>`. For example:
+
+```
+tsx ecosystem-ci.ts --release @main
+tsx ecosystem-ci.ts --release @ca41b9202
+```
 
 ## how to add a new integration test
 

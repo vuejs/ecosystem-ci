@@ -23,6 +23,9 @@ on:
         required: true
         type: string
         default: "vuejs/core"
+      commit:
+        description: "commit to use"
+        type: string
       suite:
         description: "testsuite to run. runs all testsuits when `-`."
         required: false
@@ -83,11 +86,18 @@ jobs:
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile
-      - run: >-
+
+      - if: ${{ !inputs.commit }}
+        run: >-
           pnpm tsx ecosystem-ci.ts
           --branch ${{ inputs.branchName }}
           --repo ${{ inputs.repo }}
           ${{ inputs.suite }}
+        env:
+          COREPACK_ENABLE_STRICT: 0
+
+      - if: ${{ inputs.commit }}
+        run: pnpm tsx ecosystem-ci.ts --commit ${{ inputs.commit }} ${{ inputs.suite }}
         env:
           COREPACK_ENABLE_STRICT: 0
 
@@ -125,11 +135,18 @@ jobs:
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile
-      - run: >-
+
+      - if: ${{ !inputs.commit }}
+        run: >-
           pnpm tsx ecosystem-ci.ts
           --branch ${{ inputs.branchName }}
           --repo ${{ inputs.repo }}
-          ${{ matrix.suite }}
+          ${{ inputs.suite }}
+        env:
+          COREPACK_ENABLE_STRICT: 0
+
+      - if: ${{ inputs.commit }}
+        run: pnpm tsx ecosystem-ci.ts --commit ${{ inputs.commit }} ${{ inputs.suite }}
         env:
           COREPACK_ENABLE_STRICT: 0
 
