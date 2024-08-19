@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
+import https from 'node:https'
 import { cac } from 'cac'
 
 import {
@@ -39,7 +40,15 @@ cli
 		// Normalize branch / commit to pkg.pr.new releases
 		if (!isSelfTest && !options.release && !options.tag && !options.local) {
 			if (options.commit) {
-				options.release = `@${options.commit.slice(0, 7)}`
+				const shortSha = options.commit.slice(0, 7)
+				const hasRelease = await checkRelease(shortSha)
+				if (hasRelease) {
+					options.release = `@${shortSha}`
+				} else {
+					console.log(
+						'\nCommit not released on pkg.pr.new yet, building from source.\n',
+					)
+				}
 			} else if (options.repo === 'vuejs/core' && options.branch) {
 				options.release = `@${options.branch}`
 			}
@@ -197,4 +206,26 @@ function getSuitesToRun(suites: string[], root: string) {
 		}
 	}
 	return suitesToRun
+}
+
+async function checkRelease(commit: string) {
+	return new Promise((resolve, reject) => {
+		const req = https.request(
+			{
+				method: 'GET',
+				hostname: 'pkg.pr.new',
+				path: `/vuejs/core/vue@${commit}`,
+			},
+			(res) => {
+				if (res.statusCode === 200) {
+					resolve(true)
+				} else {
+					resolve(false)
+				}
+				req.destroy()
+			},
+		)
+		req.on('error', reject)
+		req.end()
+	})
 }
