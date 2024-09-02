@@ -10,16 +10,5 @@ export async function test(options: RunOptions) {
 		beforeBuild: `pnpm dedupe --registry=${REGISTRY_ADDRESS}`,
 		build: 'build',
 		test: 'test',
-		patchFiles: {
-			'packages/tsc/tests/index.spec.ts': (content) => {
-				if (!options.vueVersion.startsWith('3.4')) {
-					return content
-				}
-				return content.replace(
-					'for (const file of files) {',
-					"for (const file of files) { if (file.includes('vue3.5')) continue;",
-				)
-			},
-		},
 	})
 }
