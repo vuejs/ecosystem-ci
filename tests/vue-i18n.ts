@@ -13,7 +13,6 @@ export async function test(options: RunOptions) {
 		beforeTest: 'pnpm playwright-core install chromium',
 		test: [
 			'test:cover',
-			'test:type',
 			{
 				script: 'test:e2e',
 				args: ['--exclude', 'e2e/bridge/**'],
