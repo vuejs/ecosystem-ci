@@ -239,6 +239,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		beforeBuild,
 		beforeTest,
 		patchFiles,
+		overrideVueVersion = '',
 	} = options
 	const dir = path.resolve(
 		options.workspace,
@@ -316,7 +317,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 					} config. Use either one or the other`,
 				)
 			} else {
-				overrides[pkg.name] = version
+				overrides[`${pkg.name}${overrideVueVersion}`] = version
 			}
 		}
 	} else {
