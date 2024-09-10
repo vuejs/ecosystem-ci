@@ -13,6 +13,7 @@ export interface RunOptions {
 	root: string
 	vuePath: string
 	vueVersion: string
+	overrideVueVersion?: string
 	verify?: boolean
 	skipGit?: boolean
 	release?: string

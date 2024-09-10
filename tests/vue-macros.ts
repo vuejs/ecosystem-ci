@@ -4,9 +4,10 @@ import { RunOptions } from '../types.ts'
 export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
-		repo: 'sxzz/unplugin-vue-macros',
+		repo: 'vue-macros/vue-macros',
 		branch: 'main',
 		build: 'build',
 		test: ['test:ecosystem'],
+		overrideVueVersion: '@^3',
 	})
 }
