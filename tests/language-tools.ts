@@ -10,6 +10,6 @@ export async function test(options: RunOptions) {
 		beforeBuild: `pnpm dedupe --registry=${REGISTRY_ADDRESS}`,
 		build: 'build',
 		test: 'test',
-		overrideVueVersion: '>3.5',
+		overrideVueVersion: '@^3.5',
 	})
 }
