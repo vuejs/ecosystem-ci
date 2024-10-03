@@ -44,25 +44,25 @@
   },
   "homepage": "https://github.com/vuejs/ecosystem-ci#readme",
   "dependencies": {
-    "@actions/core": "^1.10.1",
+    "@actions/core": "^1.11.0",
     "cac": "^6.7.14",
-    "execa": "^9.2.0",
+    "execa": "^9.4.0",
     "node-fetch": "^3.3.2",
-    "verdaccio": "^5.31.1",
+    "verdaccio": "^5.32.2",
     "verdaccio-auth-memory": "^10.2.2"
   },
   "devDependencies": {
     "@antfu/ni": "^0.21.12",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
     "eslint-define-config": "^2.1.0",
-    "eslint-plugin-n": "^17.8.1",
-    "lint-staged": "^15.2.6",
-    "prettier": "^3.3.2",
-    "rimraf": "^5.0.7",
+    "eslint-plugin-n": "^17.10.3",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "rimraf": "^5.0.10",
     "simple-git-hooks": "^2.11.1",
-    "tsx": "^4.15.2",
-    "typescript": "^5.4.5"
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
   }
 }
