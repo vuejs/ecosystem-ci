@@ -38,7 +38,7 @@ If you pass `--release 3.2.45`, vue build will be skipped and vue is fetched fro
 
 The repositories are checked out into `workspace` subdirectory as shallow clones.
 
-If you want to test the same version of vue multiple times, please run `pnpm clean` first to ensure the workspace is clean.
+If you want to test **the same version (or tag)** of vue multiple times, please **run `pnpm clean` first** to ensure the workspace is clean and the package registry cache is purged.
 
 ### Running against local build
 
