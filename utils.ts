@@ -267,28 +267,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		)
 	}
 
-	const agent = options.agent
-	const beforeInstallCommand = toCommand(beforeInstall, agent)
-	const beforeBuildCommand = toCommand(beforeBuild, agent)
-	const beforeTestCommand = toCommand(beforeTest, agent)
-	const buildCommand = toCommand(build, agent)
-	const testCommand = toCommand(test, agent)
-
-	const pkgFile = path.join(dir, 'package.json')
-	const pkg = JSON.parse(await fs.promises.readFile(pkgFile, 'utf-8'))
-
-	await beforeInstallCommand?.(pkg.scripts)
-
-	if (verify && test) {
-		const frozenInstall = getCommand(agent, 'frozen')
-		await $`${frozenInstall}`
-		await beforeBuildCommand?.(pkg.scripts)
-		await buildCommand?.(pkg.scripts)
-		await beforeTestCommand?.(pkg.scripts)
-		await testCommand?.(pkg.scripts)
-	}
 	const overrides = options.overrides || {}
-
 	const vuePackages = await getVuePackages()
 
 	if (options.release) {
@@ -326,8 +305,28 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		}
 	}
 
-	await applyPackageOverrides(dir, pkg, overrides)
+	const agent = options.agent
+	const beforeInstallCommand = toCommand(beforeInstall, agent)
+	const beforeBuildCommand = toCommand(beforeBuild, agent)
+	const beforeTestCommand = toCommand(beforeTest, agent)
+	const buildCommand = toCommand(build, agent)
+	const testCommand = toCommand(test, agent)
 
+	const pkgFile = path.join(dir, 'package.json')
+	const pkg = JSON.parse(await fs.promises.readFile(pkgFile, 'utf-8'))
+
+	await beforeInstallCommand?.(pkg.scripts)
+
+	if (verify && test) {
+		const frozenInstall = getCommand(agent, 'frozen')
+		await $`${frozenInstall}`
+		await beforeBuildCommand?.(pkg.scripts)
+		await buildCommand?.(pkg.scripts)
+		await beforeTestCommand?.(pkg.scripts)
+		await testCommand?.(pkg.scripts)
+	}
+
+	await applyPackageOverrides(dir, pkg, overrides)
 	await beforeBuildCommand?.(pkg.scripts)
 	await buildCommand?.(pkg.scripts)
 	if (test) {
