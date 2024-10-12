@@ -267,16 +267,6 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		)
 	}
 
-	if (patchFiles) {
-		for (const fileName in patchFiles) {
-			const filePath = path.resolve(dir, fileName)
-			const patchFn = patchFiles[fileName]
-			const content = fs.readFileSync(filePath, 'utf-8')
-			fs.writeFileSync(filePath, patchFn(content))
-			console.log(`patched file: ${fileName}`)
-		}
-	}
-
 	const agent = options.agent
 	const beforeInstallCommand = toCommand(beforeInstall, agent)
 	const beforeBuildCommand = toCommand(beforeBuild, agent)
@@ -325,6 +315,17 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 			overrides[pkg.name] ||= pkg.hashedVersion
 		}
 	}
+
+	if (patchFiles) {
+		for (const fileName in patchFiles) {
+			const filePath = path.resolve(dir, fileName)
+			const patchFn = patchFiles[fileName]
+			const content = fs.readFileSync(filePath, 'utf-8')
+			fs.writeFileSync(filePath, patchFn(content, overrides))
+			console.log(`patched file: ${fileName}`)
+		}
+	}
+
 	await applyPackageOverrides(dir, pkg, overrides)
 
 	await beforeBuildCommand?.(pkg.scripts)
