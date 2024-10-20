@@ -8,8 +8,8 @@ export async function test(options: RunOptions) {
 		branch: 'main',
 		build: ['build:lib'],
 		beforeTest: [
-			'cd test && pnpm playwright-core install chromium',
 			'cd test && pnpm i',
+			'cd test && pnpm playwright-core install chromium',
 		],
 		test: ['cd test && pnpm test:e2e'],
 	})
