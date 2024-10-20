@@ -7,7 +7,10 @@ export async function test(options: RunOptions) {
 		repo: 'xiaoluoboding/vue-sonner',
 		branch: 'main',
 		build: ['build:lib'],
-		beforeTest: ['pnpm playwright-core install chromium', 'cd test && pnpm i'],
-		test: ['test:e2e'],
+		beforeTest: [
+			'cd test && pnpm playwright-core install chromium',
+			'cd test && pnpm i',
+		],
+		test: ['cd test && pnpm test:e2e'],
 	})
 }
