@@ -238,9 +238,11 @@ jobs:
               repo: 'core',
               issue_number: context.payload.inputs.prNumber
             })
+            console.log(comments)
             const lastComment = comments.reverse().find(comment => 
               comment.body.includes('Ran ecosystem CI:')
             )
+            console.log(lastComment)
             if (lastComment) {
               await github.rest.issues.deleteComment({
                 owner: context.repo.owner,
@@ -255,7 +257,7 @@ jobs:
               })
             }
 
-            const { data: comment } = await github.rest.issues.createComment({
+            await github.rest.issues.createComment({
               issue_number: context.payload.inputs.prNumber,
               owner: context.repo.owner,
               repo: 'core',
