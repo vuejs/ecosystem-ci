@@ -156,7 +156,7 @@ jobs:
     if: always()
     steps:
       - id: update-comment
-      - uses: actions/github-script@v7
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           result-encoding: string
