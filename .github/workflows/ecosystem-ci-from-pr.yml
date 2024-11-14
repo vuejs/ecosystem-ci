@@ -155,8 +155,7 @@ jobs:
     needs: [init, execute-selected-suite, execute-all]
     if: always()
     steps:
-      - id: update-comment
-        uses: actions/github-script@v7
+      - uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           result-encoding: string
@@ -233,11 +232,28 @@ jobs:
             }).join("\n")}
             `
 
-            await github.rest.issues.deleteComment({
+            // delete previous comment and create a new one when run by manually
+            const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: 'core',
-              comment_id: ${{ steps.update-comment.outputs.result || needs.init.outputs.comment-id }}
+              issue_number: context.payload.inputs.prNumber
             })
+            const lastComment = comments.reverse().find(comment => 
+              comment.body.includes('Ran ecosystem CI:')
+            )
+            if (lastComment) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: 'core',
+                comment_id: lastComment.id
+              })
+            } else {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: 'core',
+                comment_id: ${{ needs.init.outputs.comment-id }}
+              })
+            }
 
             const { data: comment } = await github.rest.issues.createComment({
               issue_number: context.payload.inputs.prNumber,
@@ -245,5 +261,3 @@ jobs:
               repo: 'core',
               body
             })
-
-            return comment.id
