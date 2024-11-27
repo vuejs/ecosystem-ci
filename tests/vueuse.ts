@@ -7,6 +7,6 @@ export async function test(options: RunOptions) {
 		repo: 'vueuse/vueuse',
 		branch: 'main',
 		build: 'build',
-		test: ['typecheck', 'test:3'],
+		test: ['typecheck', 'test'],
 	})
 }
