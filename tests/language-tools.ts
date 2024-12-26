@@ -1,6 +1,9 @@
+import path from 'node:path'
+import fs from 'node:fs'
 import { runInRepo } from '../utils.ts'
 import { RunOptions } from '../types.ts'
 import { REGISTRY_ADDRESS } from '../registry.ts'
+import YAML from 'yaml'
 
 export async function test(options: RunOptions) {
 	await runInRepo({
@@ -11,23 +14,62 @@ export async function test(options: RunOptions) {
 		build: 'build',
 		test: 'test',
 		overrideVueVersion: '@^3.5.2',
-		// As of Oct 3 2024, the language-tools repo is using TypeScript 5.5.4 & 5.7.0-dev.20240904,
-		// while referring to them as `@latest` and `@next` respectively.
-		// TODO: infer the TypeScript versions from the cloned lockfile.
 		patchFiles: {
 			'package.json': (content) => {
 				const pkg = JSON.parse(content)
-				pkg.devDependencies.typescript = '~5.5.4'
-				pkg.devDependencies['typescript-stable'] = 'npm:typescript@~5.5.4'
+				const versions = resolveTypeScriptVersion(options)
+				if (versions.typescript)
+					pkg.devDependencies.typescript = versions.typescript
 				return JSON.stringify(pkg, null, 2)
 			},
 			'test-workspace/package.json': (content) => {
 				const pkg = JSON.parse(content)
-				pkg.devDependencies['typescript-stable'] = 'npm:typescript@~5.5.4'
-				pkg.devDependencies['typescript-next'] =
-					'npm:typescript@5.7.0-dev.20240904'
+				const versions = resolveTypeScriptVersion(options, 'test-workspace', [
+					'typescript-stable',
+					'typescript-next',
+				])
+				if (versions['typescript-stable'])
+					pkg.devDependencies['typescript-stable'] =
+						versions['typescript-stable']
+				if (versions['typescript-next'])
+					pkg.devDependencies['typescript-next'] = versions['typescript-next']
 				return JSON.stringify(pkg, null, 2)
 			},
 		},
 	})
+}
+
+function resolveTypeScriptVersion(
+	options: RunOptions,
+	importer = '.',
+	pkgNames = ['typescript'],
+): Record<string, string> {
+	const data = resolveLockFile(options)
+	if (!data) return {}
+
+	return pkgNames.reduce(
+		(acc, pkgName) => {
+			const version =
+				data.importers[importer]?.devDependencies?.[pkgName]?.version
+			if (version) {
+				acc[pkgName] = `npm:typescript@${version.split('@').pop()}`
+			}
+			return acc
+		},
+		{} as Record<string, string>,
+	)
+}
+
+let lockFileCache: any
+function resolveLockFile(options: RunOptions, dirName = 'language-tools'): any {
+	if (lockFileCache) return lockFileCache
+
+	const filePath = path.resolve(options.workspace, dirName, 'pnpm-lock.yaml')
+	try {
+		const content = fs.readFileSync(filePath, 'utf-8')
+		return (lockFileCache = YAML.parse(content))
+	} catch (error) {
+		console.error('Error reading lockfile:', error)
+		return null
+	}
 }
