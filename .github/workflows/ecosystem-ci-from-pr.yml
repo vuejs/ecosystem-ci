@@ -83,6 +83,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
+      - run: npm install --global corepack
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile
@@ -132,6 +133,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
+      - run: npm install --global corepack
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile

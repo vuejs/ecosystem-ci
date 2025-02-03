@@ -62,6 +62,7 @@ jobs:
           node-version: 20.14.0
         id: setup-node
 
+      - run: npm install --global corepack
       - run: corepack enable
       - run: pnpm --version
       - run: pnpm i --frozen-lockfile
