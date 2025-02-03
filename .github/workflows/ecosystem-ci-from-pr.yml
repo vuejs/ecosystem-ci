@@ -82,7 +82,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.14.0
+          node-version: 22.13.1
       - run: npm install --global corepack
       - run: corepack enable
       - run: pnpm --version
@@ -132,7 +132,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.14.0
+          node-version: 22.13.1
       - run: npm install --global corepack
       - run: corepack enable
       - run: pnpm --version
