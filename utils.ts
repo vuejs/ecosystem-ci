@@ -580,17 +580,16 @@ export async function applyPackageOverrides(
 	if (pm === 'pnpm') {
 		const version = await $$`pnpm --version`
 		// avoid bug with peer dependency overrides in pnpm 10.0-10.1.0
-		// TODO: change the override to 10.1.1 after it is released
 		if (version === '10.0.0' || version === '10.1.0') {
 			console.warn(
-				`detected pnpm@${version}, changing pkg.packageManager and pkg.engines.pnpm to enforce use of pnpm@9.15.5`,
+				`detected pnpm@${version}, changing pkg.packageManager and pkg.engines.pnpm to enforce use of pnpm@10.2.0`,
 			)
-			// corepack reads this and uses pnpm 9.15.5 then
-			pkg.packageManager = 'pnpm@9.15.5'
+			// corepack reads this and uses pnpm 10.2.0 then
+			pkg.packageManager = 'pnpm@10.2.0'
 			if (!pkg.engines) {
 				pkg.engines = {}
 			}
-			pkg.engines.pnpm = '9.15.5'
+			pkg.engines.pnpm = '10.2.0'
 		}
 		// if (!pkg.devDependencies) {
 		// 	pkg.devDependencies = {}
