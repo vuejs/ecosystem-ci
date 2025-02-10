@@ -11,7 +11,7 @@ import {
 	Task,
 } from './types.ts'
 import { REGISTRY_ADDRESS, startRegistry } from './registry.ts'
-import { detect, AGENTS, getCommand } from '@antfu/ni'
+import { detect, AGENTS, getCommand, serializeCommand } from '@antfu/ni'
 import actionsCore from '@actions/core'
 
 const isGitHubActions = !!process.env.GITHUB_ACTIONS
@@ -194,7 +194,7 @@ function toCommand(
 			} else if (typeof task === 'string') {
 				if (scripts[task] != null) {
 					const runTaskWithAgent = getCommand(agent, 'run', [task])
-					await $`${runTaskWithAgent}`
+					await $`${serializeCommand(runTaskWithAgent)}`
 				} else {
 					await $`${task}`
 				}
@@ -206,7 +206,7 @@ function toCommand(
 						task.script,
 						...(task.args ?? []),
 					])
-					await $`${runTaskWithAgent}`
+					await $`${serializeCommand(runTaskWithAgent)}`
 				} else {
 					throw new Error(
 						`invalid task, script "${task.script}" does not exist in package.json`,
@@ -264,11 +264,9 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		}
 		options.agent = detectedAgent
 	}
-	if (!AGENTS[options.agent]) {
+	if (!AGENTS.includes(options.agent)) {
 		throw new Error(
-			`Invalid agent ${options.agent}. Allowed values: ${Object.keys(
-				AGENTS,
-			).join(', ')}`,
+			`Invalid agent ${options.agent}. Allowed values: ${AGENTS.join(', ')}`,
 		)
 	}
 
@@ -324,7 +322,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 
 	if (verify && test) {
 		const frozenInstall = getCommand(agent, 'frozen')
-		await $`${frozenInstall}`
+		await $`${serializeCommand(frozenInstall)}`
 		await beforeBuildCommand?.(pkg.scripts)
 		await buildCommand?.(pkg.scripts)
 		await beforeTestCommand?.(pkg.scripts)
@@ -431,12 +429,12 @@ export async function buildVue({ verify = false, publish = false }) {
 		const runTest = getCommand('pnpm', 'run', ['test'])
 
 		// Prefix with `corepack` because pnpm 7 & 8's lockfile formats differ
-		await $`corepack ${install}`
-		await $`${runBuild}`
-		await $`${runBuildDts}`
+		await $`corepack ${serializeCommand(install)}`
+		await $`${serializeCommand(runBuild)}`
+		await $`${serializeCommand(runBuildDts)}`
 
 		if (verify) {
-			await $`${runTest}`
+			await $`${serializeCommand(runTest)}`
 		}
 
 		console.log()
