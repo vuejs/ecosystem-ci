@@ -11,8 +11,7 @@ import {
 	Task,
 } from './types.ts'
 import { REGISTRY_ADDRESS, startRegistry } from './registry.ts'
-//eslint-disable-next-line n/no-unpublished-import
-import { detect, AGENTS, Agent, getCommand } from '@antfu/ni'
+import { detect, AGENTS, getCommand } from '@antfu/ni'
 import actionsCore from '@actions/core'
 
 const isGitHubActions = !!process.env.GITHUB_ACTIONS
@@ -72,9 +71,15 @@ export async function $$(literals: TemplateStringsArray, ...values: any[]) {
 		stdio: 'pipe',
 		cwd,
 	})
-	proc.stdin && process.stdin.pipe(proc.stdin)
-	proc.stdout && proc.stdout.pipe(process.stdout)
-	proc.stderr && proc.stderr.pipe(process.stderr)
+	if (proc.stdin) {
+		process.stdin.pipe(proc.stdin)
+	}
+	if (proc.stdout) {
+		proc.stdout.pipe(process.stdout)
+	}
+	if (proc.stderr) {
+		proc.stderr.pipe(process.stderr)
+	}
 
 	let result
 	try {
@@ -179,7 +184,7 @@ export async function setupRepo(options: RepoOptions) {
 
 function toCommand(
 	task: Task | Task[] | void,
-	agent: Agent,
+	agent: (typeof AGENTS)[number],
 ): ((scripts: any) => Promise<any>) | void {
 	return async (scripts: any) => {
 		const tasks = Array.isArray(task) ? task : [task]
