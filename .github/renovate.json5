@@ -1,15 +1,4 @@
 {
-	"extends": ["config:base", "schedule:weekly", "group:allNonMajor"],
-	"labels": ["dependencies"],
-	"ignorePaths": [],
-	"pin": false,
-	"rangeStrategy": "bump",
-	"node": false,
-	"packageRules": [
-		{
-			"depTypeList": ["peerDependencies", "engines"],
-			"enabled": false,
-		},
-	],
-	"ignoreDeps": [],
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["github>haoqunjiang/renovate-presets:npm.json5"],
 }
