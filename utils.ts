@@ -329,7 +329,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
 		await testCommand?.(pkg.scripts)
 	}
 
-	await applyPackageOverrides(dir, pkg, overrides)
+	await applyPackageOverrides(dir, pkg, overrides, options.release)
 	await beforeBuildCommand?.(pkg.scripts)
 	await buildCommand?.(pkg.scripts)
 	if (test) {
@@ -561,6 +561,7 @@ export async function applyPackageOverrides(
 	dir: string,
 	pkg: any,
 	overrides: Overrides = {},
+	useReleasedVersion?: string,
 ) {
 	const useFileProtocol = (v: string) =>
 		isLocalOverride(v) ? `file:${path.resolve(v)}` : v
@@ -643,15 +644,18 @@ export async function applyPackageOverrides(
 	// While `--registry` works for the `install` command,
 	// we still need to persist the registry in `.npmrc` for any possible
 	// subsequent commands that needs to connect to the registry.
-	writeOrAppendNpmrc(dir, `registry=${REGISTRY_ADDRESS}\n`)
+	// Skip this step if we are using a released version of the vue package to avoid the overhead
+	if (!useReleasedVersion) {
+		writeOrAppendNpmrc(dir, `registry=${REGISTRY_ADDRESS}\n`)
+	}
 
 	// use of `ni` command here could cause lockfile violation errors so fall back to native commands that avoid these
 	if (pm === 'pnpm') {
-		await $`pnpm install --no-frozen-lockfile --no-strict-peer-dependencies --registry ${REGISTRY_ADDRESS}`
+		await $`pnpm install --no-frozen-lockfile --no-strict-peer-dependencies`
 	} else if (pm === 'yarn') {
-		await $`yarn install --registry ${REGISTRY_ADDRESS}`
+		await $`yarn install`
 	} else if (pm === 'npm') {
-		await $`npm install --registry ${REGISTRY_ADDRESS}`
+		await $`npm install`
 	}
 }
 
