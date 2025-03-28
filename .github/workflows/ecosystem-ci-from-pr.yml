@@ -244,7 +244,7 @@ jobs:
                 console.log('comments count', comments.length)
 
                 const workflowComments = comments.filter(comment =>
-                  comment.body.startsWith('📝 Ran ecosystem CI')
+                  comment.body.includes('Ran ecosystem CI:') || comment.body.includes('Triggered ecosystem CI:')
                 )
                 console.log('comments to delete', workflowComments.length)
 
