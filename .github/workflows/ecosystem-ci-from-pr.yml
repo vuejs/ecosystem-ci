@@ -233,9 +233,40 @@ jobs:
             }).join("\n")}
             `
 
-            await github.rest.issues.updateComment({
+            // delete the previous ran results
+            try {
+              const { data: comments } = await github.rest.issues.listComments({
+                issue_number: context.payload.inputs.prNumber,
+                owner: context.repo.owner,
+                repo: 'core'
+              })
+              const workflowComments = comments.filter(comment =>
+                comment.body.startsWith('📝 Ran ecosystem CI')
+              )
+              for (const comment of workflowComments) {
+                await github.rest.issues.deleteComment({
+                  owner: context.repo.owner,
+                  repo: 'core',
+                  comment_id: comment.id
+                });
+                console.log(`Deleted previous comment: ${comment.id}`);
+              }
+            } catch (error) {
+              console.log('Error when trying to delete previous comments:', e);
+            }
+
+            try {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: 'core',
+                comment_id: ${{ needs.init.outputs.comment-id }}
+              })
+            } catch (error) {
+            }
+
+            await github.rest.issues.createComment({
+              issue_number: context.payload.inputs.prNumber,
               owner: context.repo.owner,
               repo: 'core',
-              comment_id: ${{ needs.init.outputs.comment-id }},
               body
             })
