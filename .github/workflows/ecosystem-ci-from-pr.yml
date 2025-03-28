@@ -257,7 +257,7 @@ jobs:
                   console.log(`Deleted previous comment: ${comment.id}`);
                 }
               } catch (error) {
-                console.log('Error when trying to delete previous comments:', e);
+                console.log('Error when trying to delete previous comments:', error);
               }
             //}
 
