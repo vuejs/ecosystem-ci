@@ -241,7 +241,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: 'core'
                 })
-                console.log('comments count', comment.length)
+                console.log('comments count', comments.length)
 
                 const workflowComments = comments.filter(comment =>
                   comment.body.startsWith('📝 Ran ecosystem CI')
