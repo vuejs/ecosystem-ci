@@ -233,7 +233,7 @@ jobs:
             }).join("\n")}
             `
 
-            //if (selectedSuite === "-") {
+            if (selectedSuite === "-") {
               // delete the previous ran results
               try {
                 const { data: comments } = await github.rest.issues.listComments({
@@ -241,13 +241,9 @@ jobs:
                   owner: context.repo.owner,
                   repo: 'core'
                 })
-                console.log('comments count', comments.length)
-
                 const workflowComments = comments.filter(comment =>
                   comment.body.includes('Ran ecosystem CI:') || comment.body.includes('Triggered ecosystem CI:')
                 )
-                console.log('comments to delete', workflowComments.length)
-
                 for (const comment of workflowComments) {
                   await github.rest.issues.deleteComment({
                     owner: context.repo.owner,
@@ -259,7 +255,7 @@ jobs:
               } catch (error) {
                 console.log('Error when trying to delete previous comments:', error);
               }
-            //}
+            }
 
             try {
               await github.rest.issues.deleteComment({
