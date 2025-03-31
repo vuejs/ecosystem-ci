@@ -241,10 +241,19 @@ jobs:
                   owner: context.repo.owner,
                   repo: 'core'
                 })
+
+                const triggerComments = comments.filter(comment =>
+                  comment.body.includes('/ecosystem-ci run')
+                )
+                // note: issue comments are ordered by ascending ID.
+                // delete the previous ecosystem-ci trigger comments
+                // just keep the latest one
+                triggerComments.pop()
+                
                 const workflowComments = comments.filter(comment =>
                   comment.body.includes('Ran ecosystem CI:') || comment.body.includes('Triggered ecosystem CI:')
                 )
-                for (const comment of workflowComments) {
+                for (const comment of [...workflowComments, ...triggerComments]) {
                   await github.rest.issues.deleteComment({
                     owner: context.repo.owner,
                     repo: 'core',
