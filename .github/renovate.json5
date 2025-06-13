@@ -1,4 +1,7 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>haoqunjiang/renovate-presets:npm.json5"],
+	"extends": [
+		"github>haoqunjiang/renovate-presets:npm.json5",
+		"schedule:monthly",
+	],
 }
