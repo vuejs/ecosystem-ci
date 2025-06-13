@@ -57,7 +57,7 @@
     "eslint": "^9.28.0",
     "eslint-plugin-n": "^17.20.0",
     "jiti": "^2.4.2",
-    "lint-staged": "^15.5.2",
+    "lint-staged": "^16.1.0",
     "prettier": "3.5.2",
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.13.0",
