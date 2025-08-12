@@ -4,6 +4,6 @@
   "private": true,
   "description": "Alternative typing root directory for the project in order not to pollute the root node_modules",
   "devDependencies": {
-    "@types/node": "^22.15.31"
+    "@types/node": "^22.17.1"
   }
 }
