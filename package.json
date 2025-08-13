@@ -28,11 +28,11 @@
       "eslint --fix"
     ]
   },
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.14.0",
   "type": "module",
   "engines": {
     "node": ">=18",
-    "pnpm": "^10.12.1"
+    "pnpm": "^10.14.0"
   },
   "repository": {
     "type": "git",
@@ -48,23 +48,23 @@
     "cac": "^6.7.14",
     "execa": "^9.6.0",
     "node-fetch": "^3.3.2",
-    "verdaccio": "^6.1.2",
-    "verdaccio-auth-memory": "^10.2.2"
+    "verdaccio": "^6.1.6",
+    "verdaccio-auth-memory": "^10.3.1"
   },
   "devDependencies": {
     "@antfu/ni": "^25.0.0",
-    "@eslint/js": "^9.29.0",
-    "eslint": "^9.28.0",
-    "eslint-plugin-n": "^17.20.0",
-    "jiti": "^2.4.2",
-    "lint-staged": "^16.1.0",
+    "@eslint/js": "^9.33.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-n": "^17.21.3",
+    "jiti": "^2.5.1",
+    "lint-staged": "^16.1.5",
     "prettier": "3.6.2",
     "rimraf": "^6.0.1",
-    "simple-git-hooks": "^2.13.0",
-    "tsx": "^4.20.3",
+    "simple-git-hooks": "^2.13.1",
+    "tsx": "^4.20.4",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.34.0",
-    "yaml": "^2.8.0"
+    "typescript-eslint": "^8.39.1",
+    "yaml": "^2.8.1"
   },
   "pnpm": {
     "overrides": {
