@@ -364,7 +364,6 @@ export async function getPermanentRef() {
 	}
 }
 
-// FIXME: when running the first time and with `--release` option, the directory would be empty
 export async function getVuePackages() {
 	// append the hash of the current commit to the version to avoid conflicts
 	const commitHash = await getPermanentRef()
