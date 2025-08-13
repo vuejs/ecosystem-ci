@@ -11,6 +11,7 @@ import {
 	buildVue,
 	bisectVue,
 	parseVueVersion,
+	getPermanentRef,
 } from './utils.ts'
 import { CommandOptions, RunOptions } from './types.ts'
 
@@ -50,7 +51,12 @@ cli
 					)
 				}
 			} else if (options.repo === 'vuejs/core' && options.branch) {
-				options.release = `@${options.branch}`
+				// Use the latest commit short SHA from the checked-out branch instead of the branch name
+				const shortSha = await getPermanentRef()
+				console.log(
+					`Using latest commit on branch '${options.branch}': ${shortSha}`,
+				)
+				options.release = `@${shortSha}`
 			}
 		}
 
