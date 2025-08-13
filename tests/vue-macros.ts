@@ -1,5 +1,6 @@
 import { runInRepo } from '../utils.ts'
 import { Overrides, RunOptions } from '../types.ts'
+import { REGISTRY_ADDRESS } from '../registry.ts'
 import YAML from 'yaml'
 
 export async function test(options: RunOptions) {
@@ -8,6 +9,7 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'vue-macros/vue-macros',
 		branch: 'main',
+		beforeBuild: `pnpm dedupe --registry=${REGISTRY_ADDRESS}`,
 		build: 'build',
 		test: ['test:ecosystem'],
 		overrideVueVersion,
