@@ -75,6 +75,9 @@
         "GHSA-cxrh-j4jr-qwg3",
         "GHSA-v6h2-p8h4-qcjw"
       ]
-    }
+    },
+    "onlyBuiltDependencies": [
+      "simple-git-hooks"
+    ]
   }
 }
