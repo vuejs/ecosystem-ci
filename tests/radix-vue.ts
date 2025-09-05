@@ -5,7 +5,7 @@ export async function test(options: RunOptions) {
 	await runInRepo({
 		...options,
 		repo: 'radix-vue/radix-vue',
-		branch: 'main',
+		branch: 'v2',
 		test: 'test',
 	})
 }
