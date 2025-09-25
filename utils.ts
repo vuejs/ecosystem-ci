@@ -630,6 +630,7 @@ export async function applyPackageOverrides(
 					...overrides,
 				}
 			}
+			fs.writeFileSync(workspacePath, YAML.stringify(data))
 		} else {
 			pkg.pnpm ||= {}
 			pkg.pnpm.overrides = {
