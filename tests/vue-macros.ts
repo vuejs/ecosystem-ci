@@ -14,13 +14,6 @@ export async function test(options: RunOptions) {
 		test: ['test:ecosystem'],
 		overrideVueVersion,
 
-		// It's already overridden in pnpm-workspace.yaml in the original repo
-		// but somehow it doesn't take effect when we also have overrides in package.json
-		// So we have to override it here again
-		// TODO: should handle such cases in the codebase rather than patching manually in each repo
-		overrides: {
-			vite: '^7.1.3',
-		},
 		patchFiles: {
 			'pnpm-workspace.yaml': (content: string, overrides: Overrides) => {
 				const data = YAML.parse(content)

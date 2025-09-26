@@ -13,6 +13,7 @@ import {
 import { REGISTRY_ADDRESS, startRegistry } from './registry.ts'
 import { detect, AGENTS, getCommand, serializeCommand } from '@antfu/ni'
 import actionsCore from '@actions/core'
+import YAML from 'yaml'
 
 const isGitHubActions = !!process.env.GITHUB_ACTIONS
 
@@ -601,15 +602,46 @@ export async function applyPackageOverrides(
 		// 	...pkg.devDependencies,
 		// 	...overrides, // overrides must be present in devDependencies or dependencies otherwise they may not work
 		// }
-		pkg.pnpm ||= {}
-		pkg.pnpm.overrides = {
-			...pkg.pnpm.overrides,
-			...overrides,
-		}
-		pkg.pnpm.peerDependencyRules ||= {}
-		pkg.pnpm.peerDependencyRules.allowedVersions = {
-			...pkg.pnpm.peerDependencyRules.allowedVersions,
-			...overrides,
+		const workspacePath = path.join(dir, 'pnpm-workspace.yaml')
+		if (fs.existsSync(workspacePath)) {
+			const data = YAML.parse(fs.readFileSync(workspacePath, 'utf-8'))
+			if (data.overrides) {
+				data.overrides = {
+					...data.overrides,
+					...overrides,
+				}
+			} else {
+				pkg.pnpm ||= {}
+				pkg.pnpm.overrides = {
+					...pkg.pnpm.overrides,
+					...overrides,
+				}
+			}
+			if (data.peerDependencyRules?.allowedVersions) {
+				data.peerDependencyRules.allowedVersions = {
+					...data.peerDependencyRules.allowedVersions,
+					...overrides,
+				}
+			} else {
+				pkg.pnpm ||= {}
+				pkg.pnpm.peerDependencyRules ||= {}
+				pkg.pnpm.peerDependencyRules.allowedVersions = {
+					...pkg.pnpm.peerDependencyRules.allowedVersions,
+					...overrides,
+				}
+			}
+			fs.writeFileSync(workspacePath, YAML.stringify(data))
+		} else {
+			pkg.pnpm ||= {}
+			pkg.pnpm.overrides = {
+				...pkg.pnpm.overrides,
+				...overrides,
+			}
+			pkg.pnpm.peerDependencyRules ||= {}
+			pkg.pnpm.peerDependencyRules.allowedVersions = {
+				...pkg.pnpm.peerDependencyRules.allowedVersions,
+				...overrides,
+			}
 		}
 	} else if (pm === 'yarn') {
 		pkg.resolutions = {
