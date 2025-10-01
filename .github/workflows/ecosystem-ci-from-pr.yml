@@ -57,7 +57,7 @@ jobs:
       comment-id: ${{ steps.create-comment.outputs.result }}
     steps:
       - id: create-comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           result-encoding: string
@@ -157,7 +157,7 @@ jobs:
     needs: [init, execute-selected-suite, execute-all]
     if: always()
     steps:
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           script: |
