@@ -74,6 +74,9 @@
       "ignoreGhsas": [
         "GHSA-cxrh-j4jr-qwg3",
         "GHSA-v6h2-p8h4-qcjw"
+      ],
+      "ignoreCves": [
+        "CVE-2025-57319"
       ]
     },
     "onlyBuiltDependencies": [
