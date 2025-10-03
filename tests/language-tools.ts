@@ -52,7 +52,7 @@ function resolveTypeScriptVersion(
 			const version =
 				data.importers[importer]?.devDependencies?.[pkgName]?.version
 			if (version) {
-				acc[pkgName] = `npm:typescript@${version.split('@').pop()}`
+				acc[pkgName] = `npm:typescript@~${version.split('@').pop()}`
 			}
 			return acc
 		},
