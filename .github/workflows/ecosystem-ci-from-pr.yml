@@ -79,7 +79,7 @@ jobs:
     needs: init
     if: "inputs.suite != '-'"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
         with:
           node-version: 22.13.1
@@ -129,7 +129,7 @@ jobs:
           - vue-simple-compiler
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
         with:
           node-version: 22.13.1
