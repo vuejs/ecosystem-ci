@@ -52,7 +52,7 @@
     "verdaccio-auth-memory": "^10.3.1"
   },
   "devDependencies": {
-    "@antfu/ni": "^25.0.0",
+    "@antfu/ni": "^26.1.0",
     "@eslint/js": "^9.36.0",
     "eslint": "^9.36.0",
     "eslint-plugin-n": "^17.23.1",
