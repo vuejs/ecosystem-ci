@@ -47,7 +47,6 @@
     "@actions/core": "^1.11.1",
     "cac": "^6.7.14",
     "execa": "^9.6.0",
-    "node-fetch": "^3.3.2",
     "verdaccio": "^6.2.0",
     "verdaccio-auth-memory": "^10.3.1"
   },
