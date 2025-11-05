@@ -28,8 +28,8 @@ importers:
         version: 10.3.1
     devDependencies:
       '@antfu/ni':
-        specifier: ^26.1.0
-        version: 26.2.0
+        specifier: ^27.0.1
+        version: 27.0.1
       '@eslint/js':
         specifier: ^9.36.0
         version: 9.39.1
@@ -81,8 +81,8 @@ packages:
   '@actions/io@1.1.3':
     resolution: {integrity: sha512-wi9JjgKLYS7U/z8PPbco+PvTb/nRWjeoFlJ1Qer83k/3C5PHQi28hiVdeE2kHXmIL99mQFawx8qt/JPjZilJ8Q==}
 
-  '@antfu/ni@26.2.0':
-    resolution: {integrity: sha512-bvOsrN8FGW1jTG2qD5ud1dpecarVwiAwXeLZ77b75CdDbh/A14L/kNNrvPoiBvyB2BvwJxvOaXBrFyticNYobA==}
+  '@antfu/ni@27.0.1':
+    resolution: {integrity: sha512-I6SOlwJ0MN73ECYcr7VJHpqSseyd7bpshx6JAaD0zNowS4kSWzFsqg8ikQT7DnCLiD4AZ+FaQJQ8WAk0Qi89Vw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -2155,7 +2155,7 @@ snapshots:
 
   '@actions/io@1.1.3': {}
 
-  '@antfu/ni@26.2.0':
+  '@antfu/ni@27.0.1':
     dependencies:
       ansis: 4.2.0
       fzf: 0.5.2
