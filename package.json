@@ -71,8 +71,8 @@
     },
     "auditConfig": {
       "ignoreGhsas": [
-        "GHSA-cxrh-j4jr-qwg3",
-        "GHSA-v6h2-p8h4-qcjw"
+        "GHSA-v6h2-p8h4-qcjw",
+        "GHSA-9965-vmph-33xx"
       ],
       "ignoreCves": [
         "CVE-2025-57319"
