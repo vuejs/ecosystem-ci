@@ -28,11 +28,11 @@
       "eslint --fix"
     ]
   },
-  "packageManager": "pnpm@10.18.0",
+  "packageManager": "pnpm@10.20.0",
   "type": "module",
   "engines": {
     "node": ">=18",
-    "pnpm": "^10.18.0"
+    "pnpm": "^10.20.0"
   },
   "repository": {
     "type": "git",
@@ -47,22 +47,22 @@
     "@actions/core": "^1.11.1",
     "cac": "^6.7.14",
     "execa": "^9.6.0",
-    "verdaccio": "^6.2.0",
+    "verdaccio": "^6.2.1",
     "verdaccio-auth-memory": "^10.3.1"
   },
   "devDependencies": {
     "@antfu/ni": "^27.0.1",
-    "@eslint/js": "^9.36.0",
-    "eslint": "^9.36.0",
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
     "eslint-plugin-n": "^17.23.1",
     "jiti": "^2.6.1",
-    "lint-staged": "^16.2.3",
+    "lint-staged": "^16.2.6",
     "prettier": "3.6.2",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.0",
     "simple-git-hooks": "^2.13.1",
     "tsx": "^4.20.6",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.45.0",
+    "typescript-eslint": "^8.46.3",
     "yaml": "^2.8.1"
   },
   "pnpm": {
