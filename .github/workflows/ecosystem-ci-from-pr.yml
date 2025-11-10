@@ -80,7 +80,7 @@ jobs:
     if: "inputs.suite != '-'"
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.13.1
       - run: npm install --global corepack
@@ -130,7 +130,7 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.13.1
       - run: npm install --global corepack
