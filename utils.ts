@@ -423,6 +423,8 @@ export async function buildVue({ verify = false, publish = false }) {
 		const s = performance.now()
 
 		cd(vuePath)
+		// Use `--no-frozen-lockfile` because the publish step modifies package.json
+		// dependencies from `workspace:*` to hashed versions (e.g. `3.5.26-35c3608`)
 		const install = getCommand('pnpm', 'install', ['--no-frozen-lockfile'])
 		const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
 		const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
@@ -494,6 +496,7 @@ export async function buildVue({ verify = false, publish = false }) {
 				pkg.directory,
 				`${REGISTRY_ADDRESS.replace('http://', '//')}:_authToken=dummy`,
 			)
+			// npm 11+ requires `--tag` when publishing prerelease versions (e.g. `3.5.26-35c3608`)
 			await $`pnpm publish --access public --registry ${REGISTRY_ADDRESS} --no-git-checks --tag ecosystem-ci`
 		}
 
