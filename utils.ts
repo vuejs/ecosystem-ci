@@ -423,7 +423,7 @@ export async function buildVue({ verify = false, publish = false }) {
 		const s = performance.now()
 
 		cd(vuePath)
-		const install = getCommand('pnpm', 'install')
+		const install = getCommand('pnpm', 'install', ['--no-frozen-lockfile'])
 		const runBuild = getCommand('pnpm', 'run', ['build', '--release'])
 		const runBuildDts = getCommand('pnpm', 'run', ['build-dts'])
 		const runTest = getCommand('pnpm', 'run', ['test'])
@@ -494,7 +494,7 @@ export async function buildVue({ verify = false, publish = false }) {
 				pkg.directory,
 				`${REGISTRY_ADDRESS.replace('http://', '//')}:_authToken=dummy`,
 			)
-			await $`pnpm publish --access public --registry ${REGISTRY_ADDRESS} --no-git-checks`
+			await $`pnpm publish --access public --registry ${REGISTRY_ADDRESS} --no-git-checks --tag ecosystem-ci`
 		}
 
 		console.log()
