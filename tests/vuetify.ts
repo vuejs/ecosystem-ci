@@ -7,6 +7,7 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'vuetifyjs/vuetify',
 		branch: 'master',
+		beforeTest: 'pnpm exec playwright install chromium',
 		patchFiles: {
 			'pnpm-workspace.yaml': (content) => {
 				try {
