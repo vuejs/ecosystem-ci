@@ -6,6 +6,8 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'intlify/vue-i18n',
 		branch: 'master',
+		// without vapor mode
+		commit: '72f63b7a69badf494ebce42c8eea6970d01769b3',
 		build: {
 			script: 'build',
 			args: ['--all', '-t'],
