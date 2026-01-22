@@ -12,6 +12,7 @@ overrides:
   undici@<6.23.0: '>=6.23.0'
   glob@>=11.0.0 <11.1.0: '>=11.1.0'
   validator@<13.15.22: '>=13.15.22'
+  lodash@>=4.0.0 <=4.17.22: '>=4.17.23'
 
 importers:
 
@@ -1350,8 +1351,8 @@ packages:
   lodash.once@4.1.1:
     resolution: {integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   log-update@6.1.0:
     resolution: {integrity: sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w==}
@@ -2407,7 +2408,7 @@ snapshots:
       '@verdaccio/loaders': 8.0.0-next-8.14
       '@verdaccio/signature': 8.0.0-next-8.16
       debug: 4.4.3
-      lodash: 4.17.21
+      lodash: 4.17.23
       verdaccio-htpasswd: 13.0.0-next-8.24
     transitivePeerDependencies:
       - supports-color
@@ -2417,7 +2418,7 @@ snapshots:
       '@verdaccio/core': 8.0.0-next-8.24
       debug: 4.4.3
       js-yaml: 4.1.1
-      lodash: 4.17.21
+      lodash: 4.17.23
       minimatch: 7.4.6
     transitivePeerDependencies:
       - supports-color
@@ -2462,7 +2463,7 @@ snapshots:
     dependencies:
       '@verdaccio/core': 8.0.0-next-8.24
       debug: 4.4.3
-      lodash: 4.17.21
+      lodash: 4.17.23
     transitivePeerDependencies:
       - supports-color
 
@@ -2473,7 +2474,7 @@ snapshots:
       '@verdaccio/streams': 10.2.1
       async: 3.2.6
       debug: 4.4.1
-      lodash: 4.17.21
+      lodash: 4.17.23
       lowdb: 1.0.0
       mkdirp: 1.0.4
     transitivePeerDependencies:
@@ -2492,7 +2493,7 @@ snapshots:
     dependencies:
       colorette: 2.0.20
       dayjs: 1.11.13
-      lodash: 4.17.21
+      lodash: 4.17.23
       on-exit-leak-free: 2.1.2
       pino-abstract-transport: 1.2.0
       sonic-boom: 3.8.1
@@ -2512,7 +2513,7 @@ snapshots:
       debug: 4.4.3
       express: 4.21.2
       express-rate-limit: 5.5.1
-      lodash: 4.17.21
+      lodash: 4.17.23
       lru-cache: 7.18.3
       mime: 2.6.0
     transitivePeerDependencies:
@@ -2549,7 +2550,7 @@ snapshots:
     dependencies:
       '@verdaccio/core': 8.0.0-next-8.24
       debug: 4.4.3
-      lodash: 4.17.21
+      lodash: 4.17.23
       validator: 13.15.26
     transitivePeerDependencies:
       - supports-color
@@ -2557,7 +2558,7 @@ snapshots:
   '@verdaccio/utils@8.1.0-next-8.24':
     dependencies:
       '@verdaccio/core': 8.0.0-next-8.24
-      lodash: 4.17.21
+      lodash: 4.17.23
       minimatch: 7.4.6
 
   JSONStream@1.3.5:
@@ -3480,7 +3481,7 @@ snapshots:
 
   lodash.once@4.1.1: {}
 
-  lodash@4.17.21: {}
+  lodash@4.17.23: {}
 
   log-update@6.1.0:
     dependencies:
@@ -3494,7 +3495,7 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.11
       is-promise: 2.2.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       pify: 3.0.0
       steno: 0.4.4
 
@@ -4149,7 +4150,7 @@ snapshots:
       debug: 4.4.3
       envinfo: 7.15.0
       express: 4.21.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       lru-cache: 7.18.3
       mime: 3.0.0
       semver: 7.7.2
