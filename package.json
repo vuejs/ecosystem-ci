@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/vuejs/ecosystem-ci#readme",
   "dependencies": {
-    "@actions/core": "^1.11.1",
+    "@actions/core": "^3.0.0",
     "cac": "^6.7.14",
     "execa": "^9.6.0",
     "verdaccio": "^6.2.1",
