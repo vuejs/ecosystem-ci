@@ -12,7 +12,7 @@ import {
 } from './types.ts'
 import { REGISTRY_ADDRESS, startRegistry } from './registry.ts'
 import { detect, AGENTS, getCommand, serializeCommand } from '@antfu/ni'
-import actionsCore from '@actions/core'
+import * as actionsCore from '@actions/core'
 import YAML from 'yaml'
 
 const isGitHubActions = !!process.env.GITHUB_ACTIONS
