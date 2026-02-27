@@ -7,6 +7,7 @@ export async function test(options: RunOptions) {
 		repo: 'vuejs/router',
 		branch: 'main',
 		build: 'build',
+		beforeTest: 'pnpm exec playwright install --with-deps',
 		test: 'test',
 	})
 }
