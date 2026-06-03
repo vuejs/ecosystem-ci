@@ -57,7 +57,7 @@ jobs:
       comment-id: ${{ steps.create-comment.outputs.result }}
     steps:
       - id: create-comment
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         with:
           github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           result-encoding: string
@@ -79,8 +79,8 @@ jobs:
     needs: init
     if: "inputs.suite != '-'"
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: ".node-version"
       - run: npm install --global corepack
@@ -129,8 +129,8 @@ jobs:
           - vue-simple-compiler
       fail-fast: false
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: ".node-version"
       - run: npm install --global corepack
@@ -157,7 +157,7 @@ jobs:
     needs: [init, execute-selected-suite, execute-all]
     if: always()
     steps:
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         with:
           github-token: ${{ secrets.ECOSYSTEM_CI_ACCESS_TOKEN }}
           script: |
