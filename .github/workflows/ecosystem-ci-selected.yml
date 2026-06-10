@@ -51,6 +51,10 @@ on:
           - vuetify
           - vueuse
           - vue-simple-compiler
+
+permissions:
+  contents: read
+
 jobs:
   execute-selected-suite:
     timeout-minutes: 60
