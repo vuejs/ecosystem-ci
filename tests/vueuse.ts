@@ -13,6 +13,7 @@ export async function test(options: RunOptions) {
 				try {
 					const data = YAML.parse(content) ?? {}
 					data.trustPolicy = 'off'
+					data.blockExoticSubdeps = false
 					return YAML.stringify(data)
 				} catch {
 					return content
