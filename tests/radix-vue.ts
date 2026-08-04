@@ -11,8 +11,8 @@ export async function test(options: RunOptions) {
 			'package.json': (content) => {
 				const pkg = JSON.parse(content)
 				pkg.devDependencies ||= {}
-				pkg.devDependencies.vite = '8.0.16'
-				pkg.devDependencies.vitest = '4.1.8'
+				pkg.devDependencies.vite = '8.2.0'
+				pkg.devDependencies.vitest = '4.1.10'
 				return `${JSON.stringify(pkg, null, 2)}\n`
 			},
 		},

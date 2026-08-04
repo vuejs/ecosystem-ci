@@ -15,6 +15,8 @@ export async function test(options: RunOptions) {
 			},
 		},
 		build: 'vue-ecosystem-ci:build',
+		beforeTest:
+			'pnpm --filter quasar-ui-test exec playwright install --with-deps chromium',
 		test: 'vue-ecosystem-ci:test',
 	})
 }

@@ -15,12 +15,12 @@ export async function test(options: RunOptions) {
 		test: 'test',
 		overrideVueVersion: '@^3.5.2',
 		patchFiles: {
-			// Exclude "Auto import" and "#5847" tests which rely on TypeScript's module resolution
+			// Exclude tests which rely on TypeScript's module resolution
 			// and get polluted by ecosystem-ci's node_modules
 			'vitest.config.ts': (content) => {
 				return content.replace(
 					/test:\s*\{/,
-					`test: {\n\t\ttestNamePattern: /^(?!Auto import|#5847)/,`,
+					`test: {\n\t\ttestNamePattern: /^(?!Auto import|#5847|"Add import")/,`,
 				)
 			},
 			'package.json': (content) => {
