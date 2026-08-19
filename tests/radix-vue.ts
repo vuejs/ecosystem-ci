@@ -6,12 +6,14 @@ export async function test(options: RunOptions) {
 		...options,
 		repo: 'radix-vue/radix-vue',
 		branch: 'v2',
-		// Vue overrides can make pnpm link Vitest 4 against Histoire's Vite 5 peer set.
+		// Keep Vitest's peer context aligned with packages/core so pnpm doesn't
+		// link the tests against a second Vitest instance from the workspace root.
 		patchFiles: {
 			'package.json': (content) => {
 				const pkg = JSON.parse(content)
 				pkg.devDependencies ||= {}
-				pkg.devDependencies.vite = '8.2.0'
+				pkg.devDependencies['@vitest/coverage-istanbul'] = '3.2.7'
+				pkg.devDependencies.vite = '8.2.1'
 				pkg.devDependencies.vitest = '4.1.10'
 				return `${JSON.stringify(pkg, null, 2)}\n`
 			},

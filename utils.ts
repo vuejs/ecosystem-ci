@@ -608,6 +608,7 @@ export async function applyPackageOverrides(
 		const workspacePath = path.join(dir, 'pnpm-workspace.yaml')
 		if (fs.existsSync(workspacePath)) {
 			const data = YAML.parse(fs.readFileSync(workspacePath, 'utf-8'))
+			data.blockExoticSubdeps = false
 			if (data.overrides) {
 				data.overrides = {
 					...data.overrides,
