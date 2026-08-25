@@ -1,20 +1,40 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { runInRepo } from '../utils.ts'
 import { RunOptions } from '../types.ts'
 
+const vitestContextDependencies = [
+	'@vitest/coverage-istanbul',
+	'vite',
+	'vitest',
+] as const
+
 export async function test(options: RunOptions) {
+	const dir = path.resolve(options.workspace, 'radix-vue')
+
 	await runInRepo({
 		...options,
 		repo: 'radix-vue/radix-vue',
 		branch: 'v2',
-		// Keep Vitest's peer context aligned with packages/core so pnpm doesn't
-		// link the tests against a second Vitest instance from the workspace root.
+		dir,
 		patchFiles: {
 			'package.json': (content) => {
 				const pkg = JSON.parse(content)
+				const corePkg = JSON.parse(
+					fs.readFileSync(
+						path.join(dir, 'packages/core/package.json'),
+						'utf-8',
+					),
+				)
 				pkg.devDependencies ||= {}
-				pkg.devDependencies['@vitest/coverage-istanbul'] = '3.2.7'
-				pkg.devDependencies.vite = '8.2.1'
-				pkg.devDependencies.vitest = '4.1.10'
+				// Root tooling resolves Vitest too. Mirror the context-defining test
+				// dependencies so pnpm links the same instance as packages/core.
+				for (const name of vitestContextDependencies) {
+					const version = corePkg.devDependencies?.[name]
+					if (typeof version === 'string') {
+						pkg.devDependencies[name] = version
+					}
+				}
 				return `${JSON.stringify(pkg, null, 2)}\n`
 			},
 		},
