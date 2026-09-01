@@ -46,7 +46,7 @@
   "dependencies": {
     "@actions/core": "^3.0.1",
     "cac": "^7.0.0",
-    "execa": "^9.6.1",
+    "execa": "^10.0.1",
     "verdaccio": "^6.9.2",
     "verdaccio-auth-memory": "^10.3.3"
   },
