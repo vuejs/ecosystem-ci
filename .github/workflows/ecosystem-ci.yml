@@ -54,6 +54,7 @@ jobs:
           - vitepress
           - vue-i18n
           - vue-macros
+          - vuepress
           - vuetify
           - vueuse
           - vue-simple-compiler
