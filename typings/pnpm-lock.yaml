@@ -9,20 +9,20 @@ importers:
   .:
     devDependencies:
       '@types/node':
-        specifier: ^22.20.1
-        version: 22.20.1
+        specifier: ^22.20.4
+        version: 22.20.4
 
 packages:
 
-  '@types/node@22.20.1':
-    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
+  '@types/node@22.20.4':
+    resolution: {integrity: sha512-zJRE40jpHtKqE/C4fgHrAKQLJuSpzEnP9ff9Y7YtoR3Wd2pwqzlekDeEuUQXjRd+QCYnVnNwuJYmhdk9XV8gvA==}
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
 snapshots:
 
-  '@types/node@22.20.1':
+  '@types/node@22.20.4':
     dependencies:
       undici-types: 6.21.0
 
