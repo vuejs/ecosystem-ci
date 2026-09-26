@@ -55,7 +55,7 @@
     "@eslint/js": "^10.0.1",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.8.0",
-    "eslint-plugin-n": "^17.24.0",
+    "eslint-plugin-n": "^18.3.0",
     "jiti": "^2.7.0",
     "lint-staged": "^16.4.0",
     "prettier": "3.9.6",
