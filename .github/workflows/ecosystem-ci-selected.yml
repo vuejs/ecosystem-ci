@@ -42,6 +42,7 @@ on:
           - quasar
           - radix-vue
           - router
+          - storybook
           - test-utils
           - vant
           - vite-plugin-vue

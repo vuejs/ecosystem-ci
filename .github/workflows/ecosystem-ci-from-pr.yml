@@ -40,6 +40,7 @@ on:
           - quasar
           - radix-vue
           - router
+          - storybook
           - test-utils
           - vant
           - vite-plugin-vue
@@ -118,6 +119,7 @@ jobs:
           - quasar
           - radix-vue
           - router
+          - storybook
           - test-utils
           - vant
           - vite-plugin-vue
