@@ -609,6 +609,8 @@ export async function applyPackageOverrides(
 		if (fs.existsSync(workspacePath)) {
 			const data = YAML.parse(fs.readFileSync(workspacePath, 'utf-8'))
 			data.blockExoticSubdeps = false
+			// ecosystem-ci installs freshly published packages, such as new dependencies of Vue
+			data.minimumReleaseAge = 0
 			if (data.overrides) {
 				data.overrides = {
 					...data.overrides,
