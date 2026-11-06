@@ -48,7 +48,7 @@
     "cac": "^7.0.0",
     "execa": "^9.6.1",
     "verdaccio": "^6.9.2",
-    "verdaccio-auth-memory": "^10.3.3"
+    "verdaccio-auth-memory": "^13.1.7"
   },
   "devDependencies": {
     "@antfu/ni": "^30.3.0",
