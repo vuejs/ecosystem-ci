@@ -68,7 +68,7 @@
   },
   "pnpm": {
     "overrides": {
-      "minimatch@>=7.0.0 <7.4.8": "7.4.8",
+      "minimatch@>=7.0.0 <7.4.8": "11.0.7",
       "ajv@8.17.1": "8.20.0"
     },
     "onlyBuiltDependencies": [
