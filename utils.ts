@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { execaCommand } from 'execa'
+import { execa, parseCommandString } from 'execa'
 import {
 	EnvironmentData,
 	Overrides,
@@ -40,7 +40,8 @@ export async function $(literals: TemplateStringsArray, ...values: any[]) {
 		console.log(`${cwd} $> ${cmd}`)
 	}
 
-	await execaCommand(cmd, {
+	const [file, ...args] = parseCommandString(cmd)
+	await execa(file, args, {
 		env,
 		stdio: 'inherit',
 		cwd,
@@ -67,7 +68,8 @@ export async function $$(literals: TemplateStringsArray, ...values: any[]) {
 		console.log(`${cwd} $> ${cmd}`)
 	}
 
-	const proc = execaCommand(cmd, {
+	const [file, ...args] = parseCommandString(cmd)
+	const proc = execa(file, args, {
 		env,
 		stdio: 'pipe',
 		cwd,

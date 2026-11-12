@@ -1,8 +1,11 @@
 import path from 'node:path'
-import { runInRepo } from '../utils.ts'
+import assert from 'node:assert/strict'
+import { $$, runInRepo } from '../utils.ts'
 import { RunOptions } from '../types.ts'
 
 export async function test(options: RunOptions) {
+	assert.equal(await $$`node -p process.argv[1] ecosystem\\ ci`, 'ecosystem ci')
+
 	await runInRepo({
 		...options,
 		repo: 'vuejs/ecosystem-ci',
