@@ -52,7 +52,7 @@ on:
 jobs:
   init:
     name: "Running for PR #${{ github.event.inputs.prNumber }}"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       comment-id: ${{ steps.create-comment.outputs.result }}
     steps:
@@ -75,7 +75,7 @@ jobs:
 
   execute-selected-suite:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: init
     if: "inputs.suite != '-'"
     steps:
@@ -104,7 +104,7 @@ jobs:
 
   execute-all:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: init
     if: "inputs.suite == '-'"
     strategy:
@@ -153,7 +153,7 @@ jobs:
           COREPACK_ENABLE_STRICT: 0
 
   update-comment:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [init, execute-selected-suite, execute-all]
     if: always()
     steps:
