@@ -47,28 +47,28 @@
     "@actions/core": "^3.0.1",
     "cac": "^7.1.0",
     "execa": "^10.2.1",
-    "verdaccio": "^7.1.0",
+    "verdaccio": "^7.1.2",
     "verdaccio-auth-memory": "^13.1.7"
   },
   "devDependencies": {
     "@antfu/ni": "^30.6.0",
     "@eslint/js": "^10.0.1",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "eslint-plugin-n": "^18.5.0",
     "jiti": "^2.7.0",
-    "lint-staged": "^17.6.0",
+    "lint-staged": "^17.6.1",
     "prettier": "3.9.10",
     "rimraf": "^6.1.4",
     "simple-git-hooks": "^2.14.0",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "typescript-eslint": "^8.72.2",
+    "typescript-eslint": "^8.73.0",
     "yaml": "^2.9.1"
   },
   "pnpm": {
     "overrides": {
-      "minimatch@>=7.0.0 <11.0.1": "11.0.7",
+      "minimatch@>=7.0.0 <11.0.1": "11.0.9",
       "ajv@8.17.1": "8.20.0"
     },
     "onlyBuiltDependencies": [
